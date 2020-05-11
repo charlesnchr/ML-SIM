@@ -1,14 +1,14 @@
 # ML-SIM
 
-## Status of repository
-The code used for the preprint publication is currently being polished and commented to make it more easy to read. Please look back soon to find the code.
-
 **ML-SIM: A deep neural network for the reconstruction of structured illumination microscopy images**
 
 _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Pietro Lio<sup>2</sup>, Clemens F. Kaminski_</br></br>
 <sup>1</sup>University of Cambridge, Department of Chemical Engineering and Biotechnology, Laser Analytics Group</br>
 <sup>2</sup>University of Cambridge, Department of Computer Science and Technology, Artificial Intelligence Group</br>
 <sup> *</sup>Author of this repository - GitHub username: [charlesnchr](http://github.com/charlesnchr) - Email address: <code>charles.n.chr@gmail.com</code>
+
+## Status of repository
+The code used for the preprint publication is currently being polished and commented to make it more easy to read. Please look back soon to find the code.
 
 ## Read the preprint
 Preprint paper on arXiv [https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064) 
