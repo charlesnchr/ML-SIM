@@ -7,11 +7,7 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Pietro Lio<
 <sup> *</sup>Author of this repository - GitHub username: [charlesnchr](http://github.com/charlesnchr) - Email address: <code>charles.n.chr@gmail.com</code>
 
 ## Read the preprint
-ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images
-Charles N. Christensen, Edward N. Ward, Pietro Lio, Clemens F. Kaminski
-
 Preprint paper on arXiv [https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064) 
-
 
 ## Web app to test the model
 There is an online browser-based ready-to-use implementation available at:
