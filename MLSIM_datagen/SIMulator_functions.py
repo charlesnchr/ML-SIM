@@ -18,6 +18,7 @@ def PsfOtf(w, scale):
     eps = np.finfo(np.float64).eps
 
     x = np.linspace(0, w-1, w)
+    y = np.linspace(0, w-1, w)
     X, Y = np.meshgrid(x, y)
 
     # Generation of the PSF with Besselj.
