@@ -1,0 +1,147 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+body {
+  background-color: #7F7F7F;
+  height:100%;
+  position:relative;
+}
+html {
+  height: 100%;
+}
+.App {
+  /* text-align: center; */
+  background-color: #7F7F7F;
+  font-family: 'Roboto';
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  padding: 10px 15px;
+  color: white;
+}
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.nondraggable {
+  -webkit-app-region: none;
+}
+
+.App-intro {
+  font-size: large;
+} 
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* image grid */
+#imgcontainer div  {
+    margin: 5px;
+    cursor: pointer;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    float:left;
+    display:flex;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+#imgcontainer img {
+  /* border: 1px solid black; */
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+
+.sidepanelSection {
+  width:100%;
+  padding:20px 20px 0 20px;
+  color:#999999;
+  font-size:14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+.headerText { 
+  font-size:20px;letter-spacing:5px; font-family: sans-serif;
+  font-weight:300;
+}
+
+.boldtext { 
+  font-weight: 600;
+}
+
+.calcStatus {
+  text-align: right;
+}
+
+.folderEntry {
+  padding: 5px;
+  width:100%;
+  font-size: 12px;
+  color:#D9D9D9;
+  overflow-x:auto;
+  cursor: pointer;
+  font-family: 'Roboto';
+}
+
+
+.folderEntry:hover {
+  background-color: #555555;
+}
+
+.selectedFolderEntry {
+  color:black;
+  background-color: #999999;
+}
+
+.selectedFolderEntry:hover {
+  color:black;
+  background-color: #999999;
+}
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #444444; 
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+.selectInput {
+  font-size:13px !important;
+}
+
+.modelSelect {
+  font-size:15px;
+}

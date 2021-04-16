@@ -1,0 +1,93 @@
+{
+  "name": "ML-SIM",
+  "description": "Deep neural network for reconstruction of structured illumination microscopy images",
+  "license": "MIT",
+  "author": "Charles N. Christensen",
+  "version": "1.0.5",
+  "private": true,
+  "workspaces": [
+    ".",
+    "pyengine"
+  ],
+  "dependencies": {
+    "@blueprintjs/core": "^3.25.0",
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "^4.5.1",
+    "aws-sdk": "^2.661.0",
+    "crypto": "^1.0.1",
+    "electron-is-dev": "1.1.0",
+    "electron-log": "^4.1.1",
+    "electron-store": "^5.1.0",
+    "electron-updater": "^4.0.6",
+    "got": "^11.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "rimraf": "^3.0.2",
+    "typeface-roboto": "^0.0.75",
+    "unzipper": "^0.10.11"
+  },
+  "devDependencies": {
+    "concurrently": "4.1.2",
+    "cross-env": "^7.0.2",
+    "electron": "6.0.11",
+    "electron-builder": "22.3.6",
+    "nodemon": "^2.0.3",
+    "prettier": "^1.4.4",
+    "react-scripts": "3.1.2",
+    "wait-on": "3.3.0"
+  },
+  "build": {
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ],
+    "mac": {
+      "icon": "graphics/icons/icon.icns"
+    },
+    "win": {
+      "icon": "graphics/icons/icon.ico",
+      "rfc3161TimeStampServer": "http://timestamp.comodoca.com/rfc3161"
+    },
+    "linux": {
+      "icon": "dist/icons"
+    }
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "download-models": "node util/download_models.js",
+    "react-start": "cross-env PORT=4001 react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "cross-env electron-builder",
+    "electron-build-publish": "cross-env electron-builder --publish=always",
+    "electron-build-publish-github": "cross-env electron-builder --config.publish.provider=github --publish=always",
+    "pybuild": "yarn workspace ml-engine pybuild",
+    "pypush": "yarn workspace ml-engine pypush",
+    "pyrelease": "yarn workspace ml-engine pyrelease",
+    "pypatch": "yarn workspace ml-engine patch",
+    "socket": "cd pyengine/pysrc && nodemon --exec \"pipenv\" run python engine.py 5002",
+    "release": "yarn react-build && yarn electron-build-publish",
+    "build": "yarn react-build && yarn electron-build",
+    "build-test": "yarn react-build && yarn electron-build-test",
+    "patch": "npm --no-git-tag-version version patch",
+    "electron": "cross-env RunReactCompile=1 electron .",
+    "electron-localhost": "wait-on http://localhost:4001 && electron .",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"yarn electron-localhost\""
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

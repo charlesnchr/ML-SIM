@@ -1,0 +1,20 @@
+{
+    "name": "ml-engine",
+    "description": "Python backend engine used in ML-SIM",
+    "license": "UNLICENSED",
+    "version": "2.1.2",
+    "author": "Charles N. Christensen",
+    "scripts": {
+        "pyinstaller": "pyinstaller pysrc/engine.py --distpath . -y --noconfirm",
+        "pyzip": "node util/pyzip.js",
+        "pyfinalize": "node util/pyfinalize.js",
+        "pypackage": "yarn pyzip && yarn pyfinalize",
+        "pybuild": "yarn pyinstaller && yarn pypackage",
+        "pyrelease": "yarn pybuild && yarn pypush",
+        "patch": "npm --no-git-tag-version version patch"
+    },
+    "devDependencies": {
+        "archiver": "^4.0.1",
+        "cross-env": "^7.0.2"
+    }
+}
