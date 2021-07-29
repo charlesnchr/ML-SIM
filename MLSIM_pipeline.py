@@ -7,7 +7,6 @@ import glob
 import os
 import argparse
 from multiprocessing import Pool
-import subprocess
 import MLSIM_datagen.SIMulator_functions
 import run
 import shutil
@@ -36,7 +35,9 @@ parser.add_argument('--dataonly', action='store_true')
 parser.add_argument('--applyOTFtoGT', action='store_true')
 
 opt = parser.parse_args()
-    # return opt
+
+if opt.root == 'auto':
+    opt.root = opt.out + '_SIMdata'
 
 
 # ------------ Parameters-------------
@@ -103,7 +104,7 @@ if __name__ == '__main__':
 
     os.makedirs(opt.root, exist_ok=True)
     os.makedirs(opt.out, exist_ok=True)
-    
+
     shutil.copy2('MLSIM_pipeline.py',opt.out)
     shutil.copy2('MLSIM_datagen/SIMulator_functions.py',opt.out)
 
@@ -120,7 +121,7 @@ if __name__ == '__main__':
     elif opt.nch_in > opt.Nangles*opt.Nshifts:
         print('nch_in cannot be greater than Nangles*Nshifts - not enough SIM frames')
         sys.exit(0)
-    
+
     files = files[:math.ceil( (opt.ntrain + opt.ntest) / opt.nrep )]
 
     with Pool(opt.datagen_workers) as p:
@@ -133,4 +134,4 @@ if __name__ == '__main__':
     if not opt.dataonly:
         print('Now starting training:\n')
         run.main(opt)
-    
+
