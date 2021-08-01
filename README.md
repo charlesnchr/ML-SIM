@@ -54,7 +54,7 @@ For more detailed package versions, please see the *Pipfile* in [Graphical-App](
 
 ## Layout of repository
 - Python scripts for dataset generation, training and testing. 
-  - The entire pipeline can be started with `python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES`, where *SRC_IMAGES* are diverse images from ImageNet, [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (used in publication) or similar image sets. To see all options run `python MLSIM_pipeline.py -h` or see the source code.
+  - The entire pipeline can be started with for example `python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out --ntrain 20 --ntest 20 --root auto --task simin_gtout --imageSize 512 --nrep 1 --datagen_workers 4 --model rcan --nch_in 9 --nch_out 1 --ntrain 780 --ntest 20 --scale 1 --task simin_gtout --n_resgroups 2 --n_resblocks 5 --n_feats 48 --lr 0.0001 --nepoch 50 --scheduler 10,0.5 --norm minmax --dataset fouriersim --workers 0 --batchSize 5 --saveinterval 20 --plotinterval 10 --nplot 5 --Nangle 3 --Nshift 3`, where *SRC_IMAGES* are diverse images from ImageNet, [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (used in publication) or similar image sets. To see all options run `python MLSIM_pipeline.py -h` or see the source code.
 - Jupyter notebooks for dataset generation, training and testing.
   - _1_PrepareTrainingData_: Simulates the SIM imaging process in order to generate SIM images based on clean source images. This constitutes the training data.
   - _2_Train_: Training 

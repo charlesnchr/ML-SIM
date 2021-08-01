@@ -62,7 +62,6 @@ def options():
                 return eval(optname) if len(opt_e) == 0 else typestr(opt_e[0])
 
             opt.model = getopt('opt.model', str)
-            opt.task = getopt('opt.task', str)
             opt.nch_in = getopt('opt.nch_in', int)
             opt.nch_out = getopt('opt.nch_out', int)
             opt.n_resgroups = getopt('opt.n_resgroups', int)
@@ -92,10 +91,7 @@ def remove_dataparallel_wrapper(state_dict):
 
 def train(opt, dataloader, validloader, net):
     start_epoch = 0
-    if opt.task == 'segment' or opt.task == 'classification':
-        loss_function = nn.CrossEntropyLoss()
-    else:
-        loss_function = nn.MSELoss()
+    loss_function = nn.MSELoss()
     optimizer = optim.Adam(net.parameters(), lr=opt.lr)
     loss_function.cuda()
     if len(opt.weights) > 0:  # load previous weights?
@@ -129,7 +125,7 @@ def train(opt, dataloader, validloader, net):
             lr, hr = bat[0], bat[1]
 
             optimizer.zero_grad()
-        
+
             sr = net(lr.to(opt.device))
             loss = loss_function(sr, hr.to(opt.device))
 
@@ -176,7 +172,7 @@ def train(opt, dataloader, validloader, net):
         # ---------------- TEST -----------------
         if (epoch + 1) % opt.testinterval == 0:
             testAndMakeCombinedPlots(net, validloader, opt, epoch)
-            
+
 
         if (epoch + 1) % opt.saveinterval == 0:
             # torch.save(net.state_dict(), opt.out + '/prelim.pth')
@@ -193,20 +189,20 @@ def train(opt, dataloader, validloader, net):
     if len(opt.scheduler) > 0:
         checkpoint['scheduler'] = scheduler.state_dict()
     torch.save(checkpoint, opt.out + '/final.pth')
-    
+
 
 
 
 def main(opt):
     opt.device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
-    
+
     os.makedirs(opt.out,exist_ok=True)
     shutil.copy2('options.py',opt.out)
 
     opt.fid = open(opt.out + '/log.txt', 'w')
 
     ostr = 'ARGS: ' + ' '.join(sys.argv[:])
-    print(opt, '\n') 
+    print(opt, '\n')
     print(opt, '\n', file=opt.fid)
     print('\n%s\n' % ostr)
     print('\n%s\n' % ostr, file=opt.fid)
@@ -214,7 +210,7 @@ def main(opt):
 
     print('getting dataloader', opt.root)
     dataloader, validloader = GetDataloaders(opt)
-    
+
     if opt.log:
         opt.writer = SummaryWriter(log_dir=opt.out, comment='_%s_%s' % (
             opt.out.replace('\\', '/').split('/')[-1], opt.model))
@@ -227,7 +223,7 @@ def main(opt):
 
     t0 = time.perf_counter()
     net = GetModel(opt)
-    
+
     if not opt.test:
         train(opt, dataloader, validloader, net)
         # torch.save(net.state_dict(), opt.out + '/final.pth')
@@ -238,21 +234,21 @@ def main(opt):
             net.load_state_dict(checkpoint['state_dict'])
             print('time: %0.1f' % (time.perf_counter()-t0))
         testAndMakeCombinedPlots(net, validloader, opt)
-    
+
     opt.fid.close()
     if not opt.test:
         generate_convergence_plots(opt,opt.out + '/log.txt')
-    
+
 
     print('time: %0.1f' % (time.perf_counter()-t0))
-    
+
     # optional clean up
     if opt.disposableTrainingData and not opt.test:
         print('deleting training data')
         # preserve a few samples
         os.makedirs('%s/training_data_subset' % opt.out, exist_ok=True)
-        
-        samplecount = 0 
+
+        samplecount = 0
         for file in glob.glob('%s/*' % opt.root):
             if os.path.isfile(file):
                 basename = os.path.basename(file)
