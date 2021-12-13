@@ -63,7 +63,7 @@ For more detailed package versions, please see the *Pipfile* in [Graphical-App](
 
 
 ## Resources
-- Pre-trained model for 3x3 SIM images at 512x512 pixel resolution. [Download link](https://ml-sim.s3.eu-west-2.amazonaws.com/pdist/models/DIV2K_randomised_3x3_20200317.pth).
+- Pre-trained model for 3x3 SIM images at 512x512 pixel resolution. [Download link](https://ml-sim.s3.eu-west-2.amazonaws.com/pdist/models/DIV2K_randomised_3x3_20200317.pth). See the notebook `3_Evaluate.ipynb` for how to run this pre-trained model.
 - DIV2K source image set used for dataset generation for ML-SIM. [Download link](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip).
 
 
