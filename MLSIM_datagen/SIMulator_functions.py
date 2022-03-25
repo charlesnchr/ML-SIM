@@ -23,7 +23,7 @@ def PsfOtf(w, scale):
 
     # Generation of the PSF with Besselj.
     R = np.sqrt(np.minimum(X, np.abs(X-w))**2+np.minimum(Y, np.abs(Y-w))**2)
-    yy = np.abs(2*scipy.special.jv(1, scale*R+eps) / (scale*R+eps))**2 
+    yy = np.abs(2*scipy.special.jv(1, scale*R+eps) / (scale*R+eps))**2
     yy0 = fftshift(yy)
 
     # Generate 2D OTF.
@@ -70,7 +70,7 @@ def SIMimages(opt, DIo, PSFo, OTFo):
     for i in range(opt.Nangles):
         orientation[i] = i*pi/opt.Nangles + opt.alpha + opt.angleError
 
-    if opt.shuffleOrientations: 
+    if opt.shuffleOrientations:
         np.random.shuffle(orientation)
 
     # illumination frequency vectors
@@ -125,10 +125,10 @@ def SIMimages(opt, DIo, PSFo, OTFo):
 def ApplyOTF(opt, Io):
     w = Io.shape[0]
     psfGT,otfGT = PsfOtf(w, 1.8*opt.scale)
-    newGT = np.real(ifft2(fft2(Io)*fftshift(otfGT)))    
+    newGT = np.real(ifft2(fft2(Io)*fftshift(otfGT)))
     return newGT
 
-    
+
 # %%
 def Generate_SIM_Image(opt, Io):
 
