@@ -22,6 +22,7 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup
 
 ## Web demo
 See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
+
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/charlesnchr/ML-SIM)
 
 
