@@ -20,6 +20,10 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup
 *ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images*  
 [https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064)
 
+## Web demo
+See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/charlesnchr/ML-SIM)
+
 
 ## ML-SIM in action
 A demonstration of the graphical user interface that has been developed for ML-SIM is shown below. It relies on an engine written in Python using various image libraries for parsing the many formats used in scientific  imaging and Pytorch for deep learning purposes. The functionality of applying ML-SIM in this app is fit for end-users as it stands. More features are planned such as generating new SIM datasets and training new models on those datasets within the app. Over time this software will also be extended with other plugins that rely on deep learning for other image processing tasks. [Read more](#Graphical-desktop-app).
