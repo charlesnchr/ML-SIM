@@ -411,21 +411,20 @@ def get_base_options():
     opt.root = "MLSIM_datagen"
     opt.out = "MLSIM_datagen"
 
-    opt.ModFac = st.sidebar.number_input('ModFac', value=0.8, format="%.2f")
-    opt.PSFOTFscale = st.sidebar.number_input('PSFOTFscale', value=0.8, format="%.2f")
+    opt.ModFac = st.sidebar.number_input('Modulation depth', value=0.9, format="%.2f")
+    opt.PSFOTFscale = st.sidebar.number_input('PSF OTF scale (0-1)', value=0.8, format="%.2f")
     opt.SIMmodality = st.sidebar.selectbox('SIM modality', options=["stripes", "spots"], index=0)
-    opt.Nframes = st.sidebar.number_input('Frame count', value=9, format="%d")
-    opt.k2 = st.sidebar.number_input('[Stripes] Spatial frequency, k2', value=80, format="%d")
+    opt.Nframes = st.sidebar.number_input('Frame count (determines phase shifts or spot spacing)', value=9, format="%d")
+    opt.NoiseLevel = st.sidebar.number_input('Noise level', value=10, format="%d")
+
+    opt.k2 = st.sidebar.number_input('[Stripes] Spatial frequency, k2', value=70, format="%d")
+    func_name = st.sidebar.selectbox(
+        '[Stripes] Pattern function', options=list(wave_functions.keys()), index=0)
+    opt.func = wave_functions[func_name]
     opt.spotSize = st.sidebar.number_input('[Spots] Spot size', value=2, format="%d")
 
     # opt.Nspots = st.sidebar.number_input('Number of spots', value=10, format="%d")
     # opt.Nshifts = st.sidebar.number_input('Number of shifts', value=3, format="%d")
-
-    opt.NoiseLevel = st.sidebar.number_input('Noise level', value=15, format="%d")
-
-    func_name = st.sidebar.selectbox(
-        'Pattern function', options=list(wave_functions.keys()), index=0)
-    opt.func = wave_functions[func_name]
 
     # max number is 50
     opt.nimages = st.sidebar.number_input('Number of images', value=1, format="%d", min_value=1, max_value=10)
