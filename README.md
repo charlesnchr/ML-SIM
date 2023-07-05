@@ -28,7 +28,7 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 
 Below is a preview of the interactive Streamlit application:
 
-<img src="fig/screenshot 20230705.png">
+<img src="fig/screenshot-20230705.png">
 
 ## ML-SIM Publications
 ### Journal Publication, April 2021
