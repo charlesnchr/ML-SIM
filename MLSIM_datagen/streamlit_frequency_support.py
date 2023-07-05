@@ -411,8 +411,8 @@ def get_base_options():
     opt.root = "MLSIM_datagen"
     opt.out = "MLSIM_datagen"
 
-    opt.ModFac = st.sidebar.number_input('ModFac', value=0.6, format="%.2f")
-    opt.PSFOTFscale = st.sidebar.number_input('PSFOTFscale', value=0.5, format="%.2f")
+    opt.ModFac = st.sidebar.number_input('ModFac', value=0.8, format="%.2f")
+    opt.PSFOTFscale = st.sidebar.number_input('PSFOTFscale', value=0.8, format="%.2f")
     opt.SIMmodality = st.sidebar.selectbox('SIM modality', options=["stripes", "spots"], index=0)
     opt.k2 = st.sidebar.number_input('[Stripes] Spatial frequency, k2', value=80, format="%d")
 
@@ -428,7 +428,7 @@ def get_base_options():
     opt.func = wave_functions[func_name]
 
     # max number is 50
-    opt.nimages = st.sidebar.number_input('Number of images', value=1, format="%d", min_value=1, max_value=50)
+    opt.nimages = st.sidebar.number_input('Number of images', value=1, format="%d", min_value=1, max_value=10)
     opt.plot_images = st.sidebar.checkbox('Plot images', value=False)
 
     opt.aggregate_frames = st.sidebar.checkbox('Aggregate frames', value=False)
