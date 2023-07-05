@@ -17,7 +17,7 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup
   [https://doi.org/10.1364/BOE.414680](https://doi.org/10.1364/BOE.414680)
 
 ### Pre-print manuscript, March 2020
-*ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images*  
+*ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images*
 [https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064)
 
 ## Web demo
@@ -32,37 +32,37 @@ A demonstration of the graphical user interface that has been developed for ML-S
 
 
 ## Status of repository
-Code files, Jupyter notebooks and source code for a graphical desktop app have been added. Further documentation, example reconstruction outputs, pre-trained models and snippets to train and evaluate the models reported in the publications are to be added shortly. 
+Code files, Jupyter notebooks and source code for a graphical desktop app have been added. Further documentation, example reconstruction outputs, pre-trained models and snippets to train and evaluate the models reported in the publications are to be added shortly.
 
 ### To-do
 - Improve graphical application (see separate to-do in sub-project [README](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App))
-- Add documentation and simple code snippets for training and testing 
+- Add documentation and simple code snippets for training and testing
 - Extend to 3D SIM reconstruction
 - Incorporate spherical abberrations in simulated SIM data for dataset generation
 - Make ImageJ/Fiji plugin
-- Open-source the live web app reconstruction at [https://ML-SIM.com](https://ML-SIM.com) 
-- Publish µManager plugin for real-time reconstruction 
+- Open-source the live web app reconstruction at [https://ML-SIM.com](https://ML-SIM.com)
+- Publish µManager plugin for real-time reconstruction
 
 
 ## How it works
-ML-SIM uses synthetic training data that is simulated based on an physically accurate implementation of the SIM (structured illumination microscopy) imaging process. A deep neural network is trained to solve the inverse problem and with transfer learning it is possible to make the trained model work well on experimental data from the lab.   
+ML-SIM uses synthetic training data that is simulated based on an physically accurate implementation of the SIM (structured illumination microscopy) imaging process. A deep neural network is trained to solve the inverse problem and with transfer learning it is possible to make the trained model work well on experimental data from the lab.
 ![Pipeline depiction of ML-SIM](fig/pipeline.png)
 
 
 
 ## Dependencies
-- Python 3.6 or Python 3.7
+- Python 3.6-3.11
 - Pytorch 1.4 or newer
 
 For more detailed package versions, please see the *Pipfile* in [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App).
 
 
 ## Layout of repository
-- Python scripts for dataset generation, training and testing. 
+- Python scripts for dataset generation, training and testing.
   - The entire pipeline can be started with for example `python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out --ntrain 20 --ntest 20 --root auto --task simin_gtout --imageSize 512 --nrep 1 --datagen_workers 4 --model rcan --nch_in 9 --nch_out 1 --ntrain 780 --ntest 20 --scale 1 --task simin_gtout --n_resgroups 2 --n_resblocks 5 --n_feats 48 --lr 0.0001 --nepoch 50 --scheduler 10,0.5 --norm minmax --dataset fouriersim --workers 0 --batchSize 5 --saveinterval 20 --plotinterval 10 --nplot 5 --Nangle 3 --Nshift 3`, where *SRC_IMAGES* are diverse images from ImageNet, [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (used in publication) or similar image sets. To see all options run `python MLSIM_pipeline.py -h` or see the source code.
 - Jupyter notebooks for dataset generation, training and testing.
   - _1_PrepareTrainingData_: Simulates the SIM imaging process in order to generate SIM images based on clean source images. This constitutes the training data.
-  - _2_Train_: Training 
+  - _2_Train_: Training
 - [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App) (see animation above). A graphical desktop app to use trained ML-SIM models on SIM data based on the Electron framework.
   - More information in separate README in the sub-folder of this repository: [README.md](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App)
 
