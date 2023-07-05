@@ -414,13 +414,13 @@ def get_base_options():
     opt.ModFac = st.sidebar.number_input('ModFac', value=0.8, format="%.2f")
     opt.PSFOTFscale = st.sidebar.number_input('PSFOTFscale', value=0.8, format="%.2f")
     opt.SIMmodality = st.sidebar.selectbox('SIM modality', options=["stripes", "spots"], index=0)
-    opt.k2 = st.sidebar.number_input('[Stripes] Spatial frequency, k2', value=80, format="%d")
-
     opt.Nframes = st.sidebar.number_input('Frame count', value=9, format="%d")
+    opt.k2 = st.sidebar.number_input('[Stripes] Spatial frequency, k2', value=80, format="%d")
+    opt.spotSize = st.sidebar.number_input('Spots] Spot size', value=2, format="%d")
+
     # opt.Nspots = st.sidebar.number_input('Number of spots', value=10, format="%d")
     # opt.Nshifts = st.sidebar.number_input('Number of shifts', value=3, format="%d")
 
-    opt.spotSize = st.sidebar.number_input('Spot size', value=2, format="%d")
     opt.NoiseLevel = st.sidebar.number_input('Noise level', value=15, format="%d")
 
     func_name = st.sidebar.selectbox(
@@ -440,6 +440,7 @@ def run_single(opt):
     print(opt)
 
     images = sorted(glob.glob("MLSIM_datagen/DIV2K_subset/*.png")[:opt.nimages])
+    print(images)
 
     progress_bar = st.progress(0)
     I, wf, wf_spectrum, proj, center = compute(opt, images, progress_bar = progress_bar)
