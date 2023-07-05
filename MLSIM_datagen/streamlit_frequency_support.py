@@ -439,8 +439,8 @@ def get_base_options():
 def run_single(opt):
     print(opt)
 
-    images = sorted(glob.glob("MLSIM_datagen/DIV2K_subset/*.png")[:opt.nimages])
-    print(images)
+    images = sorted(glob.glob("MLSIM_datagen/DIV2K_subset/*.png"))
+    images = images[:opt.nimages]
 
     progress_bar = st.progress(0)
     I, wf, wf_spectrum, proj, center = compute(opt, images, progress_bar = progress_bar)
@@ -535,7 +535,8 @@ def run_sweep(opt, sweep_type=1, param1=None, param1_values=None, param2=None, p
     sweep_type: 1 = 1D sweep, 2 = 2D sweep, 3 = multi-2D sweep
     """
 
-    images = sorted(glob.glob("MLSIM_datagen/DIV2K_subset/*.png")[:opt.nimages])
+    images = sorted(glob.glob("MLSIM_datagen/DIV2K_subset/*.png"))
+    images = images[:opt.nimages]
 
 
     if param1 is None or param1_values is None or param2 is None or param2_values is None:
