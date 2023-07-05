@@ -10,7 +10,7 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup
 - Email: <code>charles.n.chr@gmail.com</code>
 - Twitter: [charlesnchr](https://twitter.com/charlesnchr)
 
-## Update: Interactive Streamlit Application
+## Update – July 2023: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
 
@@ -28,6 +28,13 @@ Below is a preview of the interactive Streamlit application:
 
 <img src="fig/screenshot-20230705.png">
 
+## Update – September 2022: HuggingFace Spaces Demo
+See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
+
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/charlesnchr/ML-SIM)
+
+The model used in this demo assumes that the inputs are 9 frame SIM stacks of 512x512 resolution; i.e. 3 orientations and 3 phase shifts. It will work for other dimensions, but is unlikely to be good.
+
 ## ML-SIM Publications
 ### Journal Publication, April 2021
 *ML-SIM: universal reconstruction of structured illumination microscopy images using transfer learning*
@@ -37,10 +44,7 @@ Below is a preview of the interactive Streamlit application:
 *ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images*
 [https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064)
 
-## Web demo
-See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
 
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/charlesnchr/ML-SIM)
 
 
 ## ML-SIM in action
@@ -88,10 +92,6 @@ For more detailed package versions, please see the *Pipfile* in [Graphical-App](
 - Pre-trained model for 3x3 SIM images at 512x512 pixel resolution. [Download link](https://ml-sim.s3.eu-west-2.amazonaws.com/pdist/models/DIV2K_randomised_3x3_20200317.pth). See the notebook `3_Evaluate.ipynb` for how to run this pre-trained model.
 - DIV2K source image set used for dataset generation for ML-SIM. [Download link](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip).
 
-
-## Web app to test the model
-There is an online browser-based ready-to-use implementation available at:
-[http://ML-SIM.com](http://ML-SIM.com). The model used in this tool assumes that the inputs are 9 frame SIM stacks of 512x512 resolution; i.e. 3 orientations and 3 phase shifts. It will work for other dimensions, but is unlikely to be good.
 
 ## Graphical desktop app
 An easy to install and use desktop app for Windows 10, macOS and Linux is available as an Electron app. Instructions and all source code to run the app is given in the sub folder [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App). The program allows one to batch process a set of directories including subdirectories that contain TIFF stacks, and customise and select the model that is used for reconstruction. See screenshot below.
