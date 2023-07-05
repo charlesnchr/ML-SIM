@@ -10,8 +10,6 @@ _Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup
 - Email: <code>charles.n.chr@gmail.com</code>
 - Twitter: [charlesnchr](https://twitter.com/charlesnchr)
 
-Certainly, the update can be presented in a more scientific tone while addressing as an individual contributor. Here's a revised example:
-
 ## Update: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
