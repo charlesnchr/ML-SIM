@@ -26,7 +26,8 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 
 Below is a preview of the interactive Streamlit application:
 
-<img src="fig/screenshot-20230705.png">
+![ML-SIM image formation Streamlit](fig/ML-SIM-image-formation-Streamlit.gif)
+
 
 ## Update – September 2022: HuggingFace Spaces Demo
 See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
