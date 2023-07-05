@@ -552,7 +552,7 @@ def run_sweep(opt, sweep_type=1, param1=None, param1_values=None, param2=None, p
 
         with Manager() as manager:
             queue = manager.Queue()
-            with ProcessPoolExecutor() as executor:
+            with ProcessPoolExecutor(max_workers=2) as executor: # recommend increasing, this is just for streamlit server
                 futures = []
                 for i, param1_value in enumerate(param1_values):
                     if param2_values:
