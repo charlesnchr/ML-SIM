@@ -6,4 +6,4 @@ scikit-image
 streamlit
 wandb
 numpy
-
+matplotlib
