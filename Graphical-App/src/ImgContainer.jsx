@@ -340,7 +340,7 @@ class ImgContainer extends Component {
   }
 
   downloadImages() {
-    shell.openExternal("https://ML-SIM.com/images");
+    shell.openExternal(sess.baseurl + "/tree/master/Test_data");
   }
 
   render() {

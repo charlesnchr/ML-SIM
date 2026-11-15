@@ -137,7 +137,7 @@ const WindowMenuRender = (checkedPlugins) => {
         {
           label: "Support",
           click: async () => {
-            await shell.openExternal(sess.baseurl + "/support");
+            await shell.openExternal(sess.baseurl + "/issues");
           },
         },
         {

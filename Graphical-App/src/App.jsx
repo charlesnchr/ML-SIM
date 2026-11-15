@@ -49,7 +49,6 @@ import sess from "./sess";
 
 import * as FileUtils from "./FileUtils";
 
-if (isDev && false) sess.baseurl = "http://localhost:5000"; // dev of authentication etc.
 
 window.updateblocks = true;
 
@@ -316,7 +315,7 @@ class App extends Component {
   }
 
   renewSubscription() {
-    shell.openExternal(sess.baseurl + "/profile");
+    shell.openExternal(sess.baseurl);
   }
 
   // state handling

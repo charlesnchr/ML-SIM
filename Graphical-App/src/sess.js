@@ -1,6 +1,6 @@
 // State shared between the renderer components.
 const sess = {
-    baseurl: "https://ML-SIM.com",
+    baseurl: "https://github.com/charlesnchr/ML-SIM",
     imgsize : 250, // default width
     headerHeight : 70,
     topOffset : 100,
