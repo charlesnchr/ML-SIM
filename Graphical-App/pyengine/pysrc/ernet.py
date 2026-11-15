@@ -2,6 +2,8 @@ import os
 import datetime
 import math
 
+import misc
+
 import torch
 import time 
 
@@ -664,7 +666,7 @@ def segment(exportdir,filepaths,conn,weka_colours,stats_tubule_sheet,graph_metri
     opt.nch_in = 1
     opt.nch_out = 3
     opt.cpu = False
-    opt.weights = '../models/meng_3colours_4.pth'
+    opt.weights = os.path.join(misc.MODELS_DIR, 'meng_3colours_4.pth')
     opt.scale = 1
     
     

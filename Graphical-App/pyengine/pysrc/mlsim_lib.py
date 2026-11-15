@@ -1,4 +1,5 @@
 from mlsim_models import GetModel
+import misc
 from PIL import Image
 import numpy as np
 import datetime
@@ -67,7 +68,7 @@ def GetOptions_allRnd():
     opt.undomulti = False
 
     opt.imageSize = 512
-    opt.weights = "../models/DIV2K_randomised_3x3_20200317.pth"
+    opt.weights = os.path.join(misc.MODELS_DIR, "DIV2K_randomised_3x3_20200317.pth")
 
     opt.task = 'simin_gtout'
     opt.scale = 1
