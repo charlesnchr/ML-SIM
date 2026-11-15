@@ -352,7 +352,6 @@ class App extends Component {
 
   engineStatus() {
     let estat = this.state.engineStatus;
-    log.info("inside engine status", estat);
     if (estat === "active" || estat === "unstarted") {
       return "";
     } else if (estat === "recently-active") {
