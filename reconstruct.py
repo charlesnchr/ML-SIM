@@ -9,6 +9,7 @@ to the output folder. The weights are downloaded on first use.
 """
 
 import argparse
+import hashlib
 import os
 import urllib.request
 
@@ -18,10 +19,31 @@ from skimage import io
 
 from models import GetModel
 
-WEIGHTS_URL = (
-    "https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/"
-    "DIV2K_randomised_3x3_20200317.pth"
+WEIGHTS_NAME = "DIV2K_randomised_3x3_20200317.pth"
+WEIGHTS_SHA256 = "e4936f5ccf5db42009fa23ca3cbd63f53125dbd787240ca78f09e2b85c682a08"
+WEIGHTS_URLS = (
+    "https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/" + WEIGHTS_NAME,
+    "https://huggingface.co/spaces/charlesnchr/ML-SIM/resolve/main/model/" + WEIGHTS_NAME,
 )
+
+
+def download_weights(dest):
+    """Fetch the released model, trying each mirror, and check its hash."""
+    for url in WEIGHTS_URLS:
+        print("Downloading pre-trained weights from", url)
+        try:
+            urllib.request.urlretrieve(url, dest + ".part")
+        except OSError as err:
+            print("  failed:", err)
+            continue
+        with open(dest + ".part", "rb") as f:
+            digest = hashlib.sha256(f.read()).hexdigest()
+        if digest == WEIGHTS_SHA256:
+            os.replace(dest + ".part", dest)
+            return
+        print("  checksum mismatch, discarding the file")
+        os.remove(dest + ".part")
+    raise SystemExit("Could not download the weights. Fetch %s by hand and pass it with --weights." % WEIGHTS_URLS[0])
 
 
 def load_model(weights, device):
@@ -32,8 +54,7 @@ def load_model(weights, device):
         cpu=True,  # build the bare network, it is moved to the device below
     )
     if not os.path.isfile(weights):
-        print("Downloading pre-trained weights to", weights)
-        urllib.request.urlretrieve(WEIGHTS_URL, weights)
+        download_weights(weights)
 
     checkpoint = torch.load(weights, map_location=device)
     state_dict = checkpoint["state_dict"] if isinstance(checkpoint, dict) and "state_dict" in checkpoint else checkpoint
@@ -61,7 +82,7 @@ def reconstruct(net, stack, device):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("stacks", nargs="+", help="TIFF stacks with at least 9 frames")
-    p.add_argument("--weights", default="DIV2K_randomised_3x3_20200317.pth", help="path to the model file")
+    p.add_argument("--weights", default=WEIGHTS_NAME, help="path to the model file")
     p.add_argument("--out", default="reconstructions", help="output folder")
     p.add_argument("--cpu", action="store_true", help="run on CPU even if a GPU is available")
     args = p.parse_args()
