@@ -240,10 +240,6 @@ export default class Plugin_SIM extends Component {
                     <MenuItem value="mdl1">
                       Three-colour tubuleSheet_4.pth
                     </MenuItem>
-                    <MenuItem value="mdl2">Randomised RCAN - 3x5.pth</MenuItem>
-                    <MenuItem value="mdl3">
-                      My optimised model - 3x5.pth
-                    </MenuItem>
                   </Select>
                 </FormControl>
               </ThemeProvider>

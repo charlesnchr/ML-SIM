@@ -167,10 +167,6 @@ export default class Plugin_SIM extends Component {
                   <InputLabel>Selected model</InputLabel>
                   <Select defaultValue="mdl1">
                     <MenuItem value="mdl1">Randomised RCAN - 3x3.pth</MenuItem>
-                    <MenuItem value="mdl2">Randomised RCAN - 3x5.pth</MenuItem>
-                    <MenuItem value="mdl3">
-                      My optimised model - 3x5.pth
-                    </MenuItem>
                   </Select>
                 </FormControl>
                 <FormControlLabel
