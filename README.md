@@ -29,6 +29,7 @@ Structured illumination microscopy (SIM) doubles the resolution of a fluorescenc
 - **Nothing to tune.** In our comparison FairSIM, OpenSIM and CC-SIM each needed a hand-tuned configuration per dataset. ML-SIM has no settings.
 - **Fast.** Under 200 ms per reconstruction on a GTX 1080 Ti, more than ten times faster than the classical methods and quick enough for a live view during acquisition. About 10 s on an 8-core CPU.
 - **Robust to noise and irregular patterns.** It reconstructed interferometric SIM data with uneven phase steps that two of the three classical methods could not process. At high noise FairSIM and CC-SIM scored below the unprocessed wide-field image, while ML-SIM kept improving on it.
+- **Includes a SIM simulator.** [`MLSIM_datagen/`](#a-python-port-of-the-opensim-simulator) is a Python port of the OpenSIM image formation model, extended with randomised pattern errors, Poisson noise and spot illumination. It runs on its own to make test data with a known ground truth.
 - **Peer reviewed.** Published in [Biomedical Optics Express](https://doi.org/10.1364/BOE.414680) and cited more than 90 times.
 
 ## Try it
@@ -86,6 +87,38 @@ ML-SIM learns the inversion from examples. Every training example starts as an o
 
 Because the randomisation covers a wide range of imaging conditions, the trained network copes with real microscopes without modification. The loss is the mean squared error against the ground truth. There is no adversarial term that rewards the network for inventing plausible texture.
 
+## A Python port of the OpenSIM simulator
+
+The training data comes from `MLSIM_datagen/`, a Python port of the SIM image formation model in [OpenSIM](https://github.com/LanMai/OpenSIM), which is written in Matlab. The port is written with NumPy and SciPy. It works on its own when all you need is simulated SIM data, for instance to test a reconstruction algorithm against a known ground truth.
+
+Given any image, it computes the optical transfer function, multiplies the image by the illumination pattern, blurs the result and adds noise. The port adds what the training needs.
+
+- Any number of pattern orientations and phase shifts.
+- Random errors in the phase steps, the orientation and the frequency of the pattern, so that no two stacks share the same illumination.
+- Gaussian or Poisson noise.
+- Spot illumination in place of stripes, with `--SIMmodality spots`.
+
+After `pip install -r requirements.txt`, one command writes a folder of stacks without training anything.
+
+```bash
+python MLSIM_pipeline.py --sourceimages_path MLSIM_datagen/DIV2K_subset --out sim_out --root auto \
+    --dataonly --imageSize 512 --scale 1 --Nangles 3 --Nshifts 3 --ntrain 10 --ntest 0
+```
+
+Each TIFF in `sim_out/SIMdata` holds the raw frames, then the optical transfer function, then the ground truth. Ten 512x512 stacks take about 10 s on a desktop CPU. The stacks are valid input for `reconstruct.py`.
+
+The Streamlit app runs the same code interactively. It shows what a set of optical parameters does to the raw frames and to the frequency support of the reconstruction, and it adds square-wave stripes to the choice of patterns. It is [hosted here](https://ml-sim.streamlit.app/) and runs locally.
+
+```bash
+streamlit run MLSIM_datagen/streamlit_frequency_support.py
+```
+
+<p align="center">
+  <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
+</p>
+
+Only the simulation side of OpenSIM is ported. Its reconstruction algorithm is one of the baselines in the paper and is not part of this repository.
+
 ## Train a model for your own microscope
 
 The released model expects 3x3 frames. If your system uses a different number of orientations or phase shifts, another wavelength or numerical aperture, or spot illumination, set the simulation to match and train your own. One command generates the dataset and trains the network.
@@ -102,15 +135,7 @@ python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out --root
 
 `SRC_IMAGES` is a folder of varied images such as [DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip), which the paper used, or ImageNet. The released model uses a larger network, `--n_resgroups 3 --n_resblocks 10 --n_feats 96`. Training needs a CUDA GPU and the full set of packages from `pip install -r requirements.txt`. Add `--disable_wandb` to skip logging to Weights & Biases, and run `python MLSIM_pipeline.py -h` for every option.
 
-Before you spend GPU hours, the Streamlit app shows what a set of optical parameters does to the raw frames and to the frequency support of the reconstruction. It is [hosted here](https://ml-sim.streamlit.app/) and also runs locally.
-
-```bash
-streamlit run MLSIM_datagen/streamlit_frequency_support.py
-```
-
-<p align="center">
-  <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
-</p>
+Before you spend GPU hours, check your optical parameters in the [Streamlit app](#a-python-port-of-the-opensim-simulator).
 
 ## What is in the repository
 
@@ -118,7 +143,7 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 | --- | --- |
 | `reconstruct.py` | Reconstruct TIFF stacks with the pre-trained model |
 | `MLSIM_pipeline.py` | Dataset generation and training in one command |
-| `MLSIM_datagen/` | The SIM image formation model, adapted from [OpenSIM](https://github.com/LanMai/OpenSIM), and the Streamlit app |
+| `MLSIM_datagen/` | A Python port of the [OpenSIM](https://github.com/LanMai/OpenSIM) simulator, with the extensions used for training, and the Streamlit app |
 | `models.py`, `run.py`, `datahandler.py`, `options.py` | Network architectures, training loop, data loading and command line options |
 | `1_PrepareTrainingData.ipynb`, `2_Train.ipynb`, `3_Evaluate.ipynb` | The same pipeline as step by step notebooks |
 | `Test_data/` | Raw stacks from two microscopes and two simulated test targets |
@@ -161,6 +186,6 @@ The code and the pre-trained weights are released under the [GNU General Public 
 
 ## Credits
 
-- [OpenSIM](https://github.com/LanMai/OpenSIM) for the Matlab image formation model that the simulation is based on.
+- [OpenSIM](https://github.com/LanMai/OpenSIM) for the Matlab image formation model that `MLSIM_datagen/` ports to Python.
 - [RCAN](https://github.com/yulunzhang/RCAN) for the network architecture.
 - [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) for the training images.
