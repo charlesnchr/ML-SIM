@@ -1,4 +1,4 @@
-const { app, ipcMain, dialog } = require("electron");
+const { app, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 const log = require("electron-log/main");
 var net = require("net");
@@ -63,12 +63,12 @@ const sendToPython = (event, json) => {
     } else if (data[0] == "e") {
       log.info("Received: ", data);
       let newdir = data.substr(1, data.length);
-      require("child_process").exec('explorer.exe "' + newdir + '"');
+      shell.openPath(newdir);
       client.write("0"); // send more
     } else if (data[0] == "z") {
       log.info("Received: ", data);
       let newfile = data.substr(1, data.length);
-      require("child_process").exec('explorer.exe /select,"' + newfile + '"');
+      shell.showItemInFolder(newfile);
       client.write("0"); // send more
     } else if (data[0] == "p") {
       // request to send filepaths
