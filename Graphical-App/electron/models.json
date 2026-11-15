@@ -1,0 +1,14 @@
+[
+  {
+    "name": "DIV2K_randomised_3x3_20200317.pth",
+    "description": "ML-SIM reconstruction model from the paper (3 orientations x 3 phases)",
+    "url": "https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth",
+    "sha256": "e4936f5ccf5db42009fa23ca3cbd63f53125dbd787240ca78f09e2b85c682a08"
+  },
+  {
+    "name": "meng_3colours_4.pth",
+    "description": "ERnet segmentation model used by the ERnet plugin",
+    "url": "https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/meng_3colours_4.pth",
+    "sha256": "5b229eb9775654affa86e6c8b959afeb5d3ca0c76e4c8b6a8096c738e2456620"
+  }
+]
