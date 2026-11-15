@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 import "./App.css";
 
@@ -31,10 +32,11 @@ const { ipcRenderer } = window.require("electron");
 const Store = window.require("electron-store");
 const store = new Store();
 
-const log = window.require("electron-log");
-const remote = window.require("electron").remote;
+import log from "./log";
+const remote = window.require("@electron/remote");
 var path = window.require("path");
 import sess from "./sess";
+import { revealFile } from "./platform";
 
 const mytheme = createMuiTheme({
   palette: {
@@ -211,7 +213,7 @@ class SidePanel extends Component {
     ipcRenderer.send("sendToPython", {
       cmd: "exportToFolder",
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         selectedFilepaths,
     });
@@ -223,7 +225,7 @@ class SidePanel extends Component {
     ipcRenderer.send("sendToPython", {
       cmd: "exportToZip",
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         selectedFilepaths,
     });
@@ -235,9 +237,7 @@ class SidePanel extends Component {
     // let dir = path.dirname(filename)
     // const name = path.parse(filename).name;
     // log.info("running", 'explorer.exe /select, "' + filename + '"');
-    window
-      .require("child_process")
-      .exec('explorer.exe /select,"' + filename + '"');
+    revealFile(filename);
   }
 
   useCloud_handler(e) {

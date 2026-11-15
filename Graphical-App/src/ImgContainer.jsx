@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import Img from "./Img";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
+import log from "./log";
 const shell = window.require("electron").shell;
 
 import sess from "./sess";

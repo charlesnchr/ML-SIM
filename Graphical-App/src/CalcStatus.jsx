@@ -4,7 +4,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
+import log from "./log";
 import sess from "./sess";
 
 

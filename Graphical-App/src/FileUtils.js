@@ -1,7 +1,7 @@
 var fs = window.require("fs");
 var path = window.require("path");
 var crypto = window.require("crypto");
-const log = window.require("electron-log");
+import log from "./log";
 
 import sess from "./sess";
 

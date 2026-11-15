@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import CalcStatus from "./CalcStatus";
@@ -16,8 +17,8 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
-const remote = window.require("electron").remote;
+import log from "./log";
+const remote = window.require("@electron/remote");
 import sess from "./sess";
 
 
@@ -91,7 +92,7 @@ export default class Plugin_SIM extends Component {
     // ipcRenderer.send("sendToPython", {
     //   cmd: "Reconstruct",
     //   arg:
-    //     remote.getGlobal("settings").exportdir +
+    //     getSettings().exportdir +
     //     "\n" +
     //     args.filepath.join("\n"),
     // });
@@ -101,7 +102,7 @@ export default class Plugin_SIM extends Component {
       cmd: "Plugin_MLSIM",
       filepaths: filepaths,
       arg:
-        remote.getGlobal("settings").exportdir
+        getSettings().exportdir
     });
   }
 

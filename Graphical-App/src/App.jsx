@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 
 import Grid from "@material-ui/core/Grid";
@@ -29,7 +30,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 const shell = window.require("electron").shell;
-const remote = window.require("electron").remote;
+const remote = window.require("@electron/remote");
 
 const app = remote.app;
 
@@ -41,8 +42,8 @@ if (plugins == null) {
   store.set("plugins", ["ML-SIM"]);
 }
 
-const log = window.require("electron-log");
-const isDev = window.require("electron-is-dev");
+import log from "./log";
+import { isDev } from "./platform";
 
 import sess from "./sess";
 
@@ -77,7 +78,7 @@ const theme = createMuiTheme({
 ipcRenderer.on("selected-file", (event, filepath) => {
   ipcRenderer.send("sendToPython", {
     cmd: "Reconstruct",
-    arg: remote.getGlobal("settings").exportdir + "\n" + filepath.join("\n"),
+    arg: getSettings().exportdir + "\n" + filepath.join("\n"),
   });
 });
 
@@ -454,8 +455,8 @@ class App extends Component {
           <SettingsMenu
             open={this.state.settingsOpen}
             onClose={this.settingsClose.bind(this)}
-            exportdir={remote.getGlobal("settings").exportdir}
-            cachedir={remote.getGlobal("settings").cachedir}
+            exportdir={getSettings().exportdir}
+            cachedir={getSettings().cachedir}
           />
           <AboutMenu
             open={this.state.aboutOpen}

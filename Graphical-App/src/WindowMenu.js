@@ -1,12 +1,12 @@
-const remote = window.require("electron").remote;
+const remote = window.require("@electron/remote");
 const shell = window.require("electron").shell;
 const Store = window.require("electron-store");
 const store = new Store();
-const log = window.require("electron-log");
+import log from "./log";
 const Menu = remote.Menu;
 const app = remote.app;
 const process = window.require("process");
-const isDev = window.require("electron-is-dev");
+import { isDev } from "./platform";
 
 import sess from "./sess";
 // var pluginDict = require("./pluginDict.js");

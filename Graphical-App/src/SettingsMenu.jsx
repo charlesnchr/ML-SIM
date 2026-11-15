@@ -46,6 +46,8 @@ function TabPanel(props) {
   );
 }
 
+import { openFolder } from "./platform";
+
 const Store = window.require("electron-store");
 const store = new Store();
 
@@ -74,9 +76,6 @@ export default function SettingsMenu(props) {
     onClose();
   };
 
-  const openFolder = (folder) => {
-    window.require("child_process").exec('explorer.exe "' + folder + '"');
-  };
 
   const gridItemStyle = { minHeight: 250 };
 

@@ -1,9 +1,7 @@
-const electron = require("electron");
-const app = electron.app;
+const { app, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
-const log = require("electron-log");
+const log = require("electron-log/main");
 var net = require("net");
-const { ipcMain, dialog } = require("electron");
 const Store = require("electron-store");
 const store = new Store();
 
@@ -65,12 +63,12 @@ const sendToPython = (event, json) => {
     } else if (data[0] == "e") {
       log.info("Received: ", data);
       let newdir = data.substr(1, data.length);
-      require("child_process").exec('explorer.exe "' + newdir + '"');
+      shell.openPath(newdir);
       client.write("0"); // send more
     } else if (data[0] == "z") {
       log.info("Received: ", data);
       let newfile = data.substr(1, data.length);
-      require("child_process").exec('explorer.exe /select,"' + newfile + '"');
+      shell.showItemInFolder(newfile);
       client.write("0"); // send more
     } else if (data[0] == "p") {
       // request to send filepaths
@@ -99,25 +97,22 @@ const sendToPython = (event, json) => {
 
   client.on("error", (error) => {
     log.warn("Error in socket communication", error);
-    log.info("Will perform integrity check program start");
-    store.set("skip_integrity_check", null);
-
-    const options = {
-      type: "warning",
-      buttons: ["Relaunch now", "Dismiss"],
-      defaultId: 0,
-      title: "An error occurred",
-      message: "Please relaunch the program to try to recover. ",
-      detail:
-        "File a bug on the ML-SIM GitHub Issues tracker if this keeps happening.",
-    };
-
-    dialog.showMessageBox(null, options, (response) => {
-      if (response == 0) {
-        app.relaunch();
-        app.exit(0);
-      }
-    });
+    dialog
+      .showMessageBox({
+        type: "warning",
+        buttons: ["Relaunch now", "Dismiss"],
+        defaultId: 0,
+        title: "An error occurred",
+        message: "Please relaunch the program to try to recover. ",
+        detail:
+          "File a bug on the ML-SIM GitHub Issues tracker if this keeps happening.",
+      })
+      .then(({ response }) => {
+        if (response == 0) {
+          app.relaunch();
+          app.exit(0);
+        }
+      });
   });
 };
 

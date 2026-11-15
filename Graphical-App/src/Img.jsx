@@ -4,7 +4,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import loadinggif from "./loading.gif";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
+import log from "./log";
 
 var path = window.require("path");
 import sess from "./sess";

@@ -11,21 +11,21 @@
     "@material-ui/icons": "^4.5.1",
     "aws-sdk": "^2.661.0",
     "crypto": "^1.0.1",
-    "electron-is-dev": "1.1.0",
-    "electron-log": "^4.1.1",
-    "electron-store": "^5.1.0",
+    "electron-log": "^5.4.4",
+    "electron-store": "^8.2.0",
     "got": "^11.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "rimraf": "^3.0.2",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "@electron/remote": "^2.1.4"
   },
   "devDependencies": {
     "concurrently": "4.1.2",
     "cross-env": "^7.0.2",
-    "electron": "6.0.11",
-    "electron-builder": "22.3.6",
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0",
     "nodemon": "^2.0.3",
     "prettier": "^1.4.4",
     "wait-on": "3.3.0",
@@ -50,7 +50,7 @@
       "icon": "dist/icons"
     }
   },
-  "main": "public/electron.js",
+  "main": "electron/main.js",
   "scripts": {
     "download-models": "node util/download_models.js",
     "electron-build": "cross-env electron-builder",

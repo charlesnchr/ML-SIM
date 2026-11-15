@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 import "./App.css";
 
@@ -20,8 +21,8 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
-const remote = window.require("electron").remote;
+import log from "./log";
+const remote = window.require("@electron/remote");
 import sess from "./sess";
 
 const mytheme = createMuiTheme({
@@ -96,7 +97,7 @@ export default class Plugin_SIM extends Component {
       cmd: "Plugin_ERNet",
       filepaths: filepaths,
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         this.state.wekaColours +
         "\n" +
