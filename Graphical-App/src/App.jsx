@@ -359,7 +359,8 @@ class App extends Component {
       return (
         <div
           style={{
-            width: "100%",
+            left: sess.sidePanelWidth,
+            right: 0,
             height: "auto",
             position: "fixed",
             backgroundColor: "green",
@@ -367,7 +368,6 @@ class App extends Component {
             bottom: 0,
             padding: 10,
             fontWeight: "bold",
-            marginLeft: sess.sidePanelWidth,
           }}
         >
           The Python engine is now installed! &nbsp;
@@ -386,7 +386,8 @@ class App extends Component {
       return (
         <div
           style={{
-            width: "100%",
+            left: sess.sidePanelWidth,
+            right: 0,
             height: "auto",
             position: "fixed",
             backgroundColor: "orange",
@@ -394,7 +395,6 @@ class App extends Component {
             bottom: 0,
             padding: 10,
             fontWeight: "bold",
-            marginLeft: sess.sidePanelWidth,
           }}
         >
           Engine not ready:{" "}
