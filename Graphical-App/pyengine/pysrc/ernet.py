@@ -534,7 +534,8 @@ def remove_isolated_pixels(image):
 
 
 def binariseImage(I):
-    ind = I[:,:,0] > 250
+    # tubules are 255 in the grey output and red in the WEKA colours
+    ind = (I[:,:,0] if I.ndim == 3 else I) > 250
     Ibin = np.zeros((I.shape[0],I.shape[1])).astype('uint8')
     Ibin[ind] = 255
     Ibin = remove_isolated_pixels(Ibin)
