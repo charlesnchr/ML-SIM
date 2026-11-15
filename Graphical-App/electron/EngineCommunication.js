@@ -1,5 +1,6 @@
 const { app, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
+const { spawn } = require("child_process");
 const log = require("electron-log/main");
 var net = require("net");
 const Store = require("electron-store");
@@ -20,7 +21,7 @@ const sendToPython = (event, json) => {
   // if (json["cmd"] == "calcFeatures" && path_send_count > 0) return; // finishing transmitting current batch
 
   var client = new net.Socket();
-  client.connect(5002, "127.0.0.1", function() {
+  client.connect(port, "127.0.0.1", function() {
     log.info("here",json);
     if ("filepaths" in json) {
       // start chunked sending of filepaths
@@ -119,62 +120,93 @@ const sendToPython = (event, json) => {
 //*
 //* Subprocess function
 //*
+let port = null; // chosen when the engine starts
 let pyProc = null;
-const createPyProc = (use_pysrc, script) => {
-  let port = "5002";
-  let useCloud = store.get("useCloud") ? "1" : "0";
-  let cachedir = store.get("cachedir");
+let quitting = false;
 
-  if (!use_pysrc) {
-    log.info("using engine", script);
-    pyProc = require("child_process").execFile(
-      script,
-      [port, useCloud, cachedir],
-      { cwd: path.dirname(script) }
-    );
-  } else {
-    log.info(
-      "spawning python server",
-      +"pipenv run python",
-      [script, port, useCloud, cachedir],
-      { cwd: path.dirname(script) }
-    );
-    pyProc = require("child_process").spawn(
-      "pipenv",
-      ["run", "python", script, port, useCloud, cachedir],
-      { cwd: path.dirname(script) }
-    );
-  }
+// Ask the operating system for a free local port.
+const getFreePort = () =>
+  new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.on("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const freePort = server.address().port;
+      server.close(() => resolve(freePort));
+    });
+  });
 
-  if (pyProc != null) {
-    //log.info(pyProc)
-    log.info("child process success on port " + port);
-    log.info("now waiting for Python server");
-    waitForPython();
-  }
+const createPyProc = async ({ python, script, modelDir, onFailure }) => {
+  port = await getFreePort();
+  const useCloud = store.get("useCloud") ? "1" : "0";
+  const cachedir = store.get("cachedir");
+
+  log.info("starting engine:", python, script);
+  pyProc = spawn(python, [script, String(port), useCloud, cachedir], {
+    cwd: path.dirname(script),
+    env: {
+      ...process.env,
+      MLSIM_MODELS_DIR: modelDir,
+      MLSIM_EXIT_WITH_PARENT: "1",
+      PYTHONUNBUFFERED: "1",
+    },
+  });
+
+  let lastOutput = "";
+  const forward = (data) => {
+    const text = data.toString().trimEnd();
+    if (text) {
+      lastOutput = text;
+      log.info("[engine]", text);
+    }
+  };
+  pyProc.stdout.on("data", forward);
+  pyProc.stderr.on("data", forward);
+
+  const setupHint =
+    ' Run "npm run setup-engine" in Graphical-App, or set MLSIM_PYTHON to a Python that has the packages in pyengine/requirements.txt.';
+
+  pyProc.on("error", (err) => {
+    log.error("could not start the engine", err);
+    pyProc = null;
+    onFailure("Could not run " + python + "." + setupHint);
+  });
+
+  pyProc.on("exit", (code) => {
+    serverActive = false;
+    pyProc = null;
+    if (quitting) return;
+    log.error("engine exited with code", code);
+    const reason = lastOutput.split("\n").pop();
+    onFailure(
+      "The Python engine stopped" + (reason ? " (" + reason + ")." : ".") + setupHint
+    );
+  });
+
+  log.info("now waiting for Python server on port " + port);
+  waitForPython();
 };
 
 const exitEngine = () => {
-  log.info("exited Python socket server");
-  pyProc.kill();
-  pyProc = null;
+  quitting = true;
+  if (pyProc != null) {
+    pyProc.kill();
+    pyProc = null;
+    log.info("exited Python socket server");
+  }
 };
 
 const waitForPython = () => {
+  if (serverActive || pyProc == null) return;
   const client = new net.Socket();
-  const tryConnection = () =>
-    client.connect({ port: 5002 }, () => {
-      client.write("nothing");
-      client.end();
-      log.info("server is now active");
-      if (!store.get("skip_integrity_check"))
-        store.set("skip_integrity_check", true);
-      serverActive = true;
-    });
-  tryConnection();
-  client.on("error", (error) => {
-    log.info("retrying connection");
-    if (!serverActive) setTimeout(tryConnection, 100);
+  client.on("error", () => {
+    client.destroy();
+    setTimeout(waitForPython, 200);
+  });
+  client.connect({ port: port, host: "127.0.0.1" }, () => {
+    client.write("nothing");
+    client.end();
+    log.info("server is now active");
+    serverActive = true;
   });
 };
 

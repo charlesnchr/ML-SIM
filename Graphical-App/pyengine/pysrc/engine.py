@@ -179,6 +179,13 @@ def run_command(conn, address):
 
 
 
+def exit_with_parent():
+    # The desktop app holds our stdin open. When the app goes away, even
+    # without a clean shutdown, stdin closes and the engine stops too.
+    sys.stdin.read()
+    os._exit(0)
+
+
 def socketserver():
     misc.log('starting socketserver')
     host = 'localhost'
@@ -231,5 +238,8 @@ if __name__ == '__main__':
             '/Mambio/' + str(idx), '/Mambio/' + str(i))
         if os.path.isdir(oldfolder):
             shutil.rmtree(oldfolder, ignore_errors=True)
+
+    if os.environ.get('MLSIM_EXIT_WITH_PARENT') == '1':
+        threading.Thread(target=exit_with_parent, daemon=True).start()
 
     socketserver()

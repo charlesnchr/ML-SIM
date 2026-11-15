@@ -9,16 +9,11 @@
     "@blueprintjs/core": "^3.25.0",
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",
-    "aws-sdk": "^2.661.0",
-    "crypto": "^1.0.1",
     "electron-log": "^5.4.4",
     "electron-store": "^8.2.0",
-    "got": "^11.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "rimraf": "^3.0.2",
-    "unzipper": "^0.10.11",
     "@electron/remote": "^2.1.4"
   },
   "devDependencies": {
@@ -52,11 +47,10 @@
   },
   "main": "electron/main.js",
   "scripts": {
-    "download-models": "node util/download_models.js",
+    "download-models": "node scripts/download-models.js",
     "electron-build": "cross-env electron-builder",
     "electron-build-publish": "cross-env electron-builder --publish=always",
     "electron-build-publish-github": "cross-env electron-builder --config.publish.provider=github --publish=always",
-    "socket": "cd pyengine/pysrc && nodemon --exec \"pipenv\" run python engine.py 5002",
     "release": "yarn react-build && yarn electron-build-publish",
     "build": "vite build",
     "build-test": "yarn react-build && yarn electron-build-test",
@@ -64,6 +58,7 @@
     "electron": "cross-env RunReactCompile=1 electron .",
     "electron-localhost": "wait-on http://localhost:4001 && electron .",
     "start": "concurrently \"yarn dev\" \"yarn electron-localhost\"",
-    "dev": "vite"
+    "dev": "vite",
+    "setup-engine": "node scripts/setup-engine.js"
   }
 }
