@@ -14,9 +14,6 @@ let mainWindow;
 const { ipcMain, dialog } = require("electron");
 const crypto = require("crypto");
 
-const { autoUpdater } = require("electron-updater");
-var quitAndInstallReady = false;
-var updateDetected = false;
 const Store = require("electron-store");
 const store = new Store();
 
@@ -229,16 +226,12 @@ function createWindow() {
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
-  if (quitAndInstallReady) {
-    autoUpdater.quitAndInstall(false, true); // isSilent, isForceRunAfter (ignored when isSilent is false)
-  } else {
-    if (!engineSetup.serverActive) {
-      store.set("skip_integrity_check", false); // there may be a problem
-    }
+  if (!engineSetup.serverActive) {
+    store.set("skip_integrity_check", false); // there may be a problem
+  }
 
-    if (process.platform !== "darwin") {
-      app.quit();
-    }
+  if (process.platform !== "darwin") {
+    app.quit();
   }
 });
 
@@ -246,74 +239,4 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
   }
-});
-
-/*************************************************************
- * App update
- *************************************************************/
-
-ipcMain.on("startUpdateService", (event) => {
-  autoUpdater.on("checking-for-update", () => {});
-
-  autoUpdater.on("update-available", (info) => {
-    log.info("Update available", info);
-    event.sender.send("update-available", info);
-    updateDetected = true;
-  });
-  autoUpdater.on("update-not-available", (info) => {
-    log.info("Update not available.");
-  });
-  autoUpdater.on("error", (err) => {
-    log.info("Error in auto-updater. " + err);
-  });
-  autoUpdater.on("download-progress", (progressObj) => {
-    event.sender.send("download-progress", progressObj);
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + " - Downloaded " + progressObj.percent + "%";
-    log_message =
-      log_message +
-      " (" +
-      progressObj.transferred +
-      "/" +
-      progressObj.total +
-      ")";
-    log.info(log_message);
-  });
-
-  autoUpdater.on("update-downloaded", (info) => {
-    log.info("Update downloaded");
-    event.sender.send("update-downloaded", info);
-    quitAndInstallReady = true;
-    store.set("skip_integrity_check", false);
-
-    const options = {
-      type: "info",
-      buttons: ["Relaunch now", "Later"],
-      defaultId: 0,
-      title: "ML-SIM update ready to install",
-      message: "Do you want to begin installation of the update?",
-      detail:
-        "File a bug on the ML-SIM GitHub Issues tracker if you have any trouble updating.",
-    };
-
-    dialog.showMessageBox(null, options, (response) => {
-      if (response == 0) {
-        autoUpdater.quitAndInstall(false, true); // isSilent, isForceRunAfter (ignored when isSilent is false)
-      }
-    });
-  });
-
-  function checkUpdate() {
-    if (!updateDetected) {
-      autoUpdater.checkForUpdates();
-      setTimeout(function() {
-        checkUpdate();
-      }, 10000);
-    }
-  }
-
-  autoUpdater.logger = log;
-  autoUpdater.logger.transports.file.level = "info";
-  log.info("Starting update service");
-  checkUpdate();
 });

@@ -14,7 +14,6 @@
     "electron-is-dev": "1.1.0",
     "electron-log": "^4.1.1",
     "electron-store": "^5.1.0",
-    "electron-updater": "^4.0.6",
     "got": "^11.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
