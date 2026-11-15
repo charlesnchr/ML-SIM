@@ -1,4 +1,5 @@
-module.exports = {
+// State shared between the renderer components.
+const sess = {
     baseurl: "https://ML-SIM.com",
     imgsize : 250, // default width
     headerHeight : 70,
@@ -36,4 +37,6 @@ module.exports = {
     thumbdict : {},
     excludePattern : "",
     includePattern : "",
-}
+};
+
+export default sess;

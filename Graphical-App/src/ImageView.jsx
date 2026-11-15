@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 
-var sess = require("./sess.js");
+import sess from "./sess";
 
 const { ipcRenderer } = window.require("electron");
 const log = window.require("electron-log");

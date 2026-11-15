@@ -22,7 +22,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 const { ipcRenderer } = window.require("electron");
 const log = window.require("electron-log");
 const remote = window.require("electron").remote;
-var sess = require("./sess.js");
+import sess from "./sess";
 
 const mytheme = createMuiTheme({
   palette: {

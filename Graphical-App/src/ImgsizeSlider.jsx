@@ -35,7 +35,7 @@ const darktheme = createMuiTheme({
     },
   });
 
-var sess = require("./sess.js");
+import sess from "./sess";
 
 
 export default class ImgsizeSlider extends Component {
