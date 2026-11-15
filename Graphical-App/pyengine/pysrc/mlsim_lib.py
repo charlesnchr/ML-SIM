@@ -109,7 +109,7 @@ def LoadModel(opt):
     else:
         state_dict = checkpoint
 
-    if opt.undomulti:
+    if opt.undomulti or all(k.startswith('module.') for k in state_dict):
         state_dict = remove_dataparallel_wrapper(state_dict)
     net.load_state_dict(state_dict)
 
