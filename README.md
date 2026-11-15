@@ -133,6 +133,34 @@ The pre-trained weights are also available as a [direct download](https://github
 - The simulation does not model out-of-focus light. Thick samples with dense background above or below the focal plane can produce artefacts, as they do with classical reconstruction.
 - A network can only be trusted within the conditions it was trained for. For quantitative work on a new kind of sample, check a few reconstructions against a classical method first.
 
+## Citation
+
+```bibtex
+@article{christensen2021mlsim,
+  title   = {ML-SIM: universal reconstruction of structured illumination microscopy images using transfer learning},
+  author  = {Christensen, Charles N. and Ward, Edward N. and Lu, Meng and Lio, Pietro and Kaminski, Clemens F.},
+  journal = {Biomedical Optics Express},
+  volume  = {12},
+  number  = {5},
+  pages   = {2720--2733},
+  year    = {2021},
+  doi     = {10.1364/BOE.414680}
+}
+```
+
+ML-SIM was developed in the [Laser Analytics Group](https://laser.ceb.cam.ac.uk/) and the Artificial Intelligence Group at the University of Cambridge by Charles N. Christensen, Edward N. Ward, Meng Lu, Pietro Lio and Clemens F. Kaminski. Questions about the code go to Charles, through the [issue tracker](https://github.com/charlesnchr/ML-SIM/issues) or at `charles.n.chr@gmail.com`.
+
+## Related work
+
+- [VSR-SIM](https://github.com/charlesnchr/VSR-SIM) extends the idea to video, with a transformer that reconstructs SIM sequences of moving samples.
+- [ERnet](https://github.com/charlesnchr/ERnet-v2) segments and analyses the endoplasmic reticulum in images like the ones above.
+
+## License
+
+The code and the pre-trained weights are released under the [GNU General Public License v3.0](LICENSE). You can use, modify and redistribute them, and derived work that you distribute has to stay under the same license.
+
 ## Credits
-- OpenSIM (Matlab code) [https://github.com/LanMai/OpenSIM](https://github.com/LanMai/OpenSIM)
-- RCAN (Pytorch model) [https://github.com/yulunzhang/RCAN](https://github.com/yulunzhang/RCAN)
+
+- [OpenSIM](https://github.com/LanMai/OpenSIM) for the Matlab image formation model that the simulation is based on.
+- [RCAN](https://github.com/yulunzhang/RCAN) for the network architecture.
+- [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) for the training images.
