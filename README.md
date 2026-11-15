@@ -112,35 +112,26 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
   <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
 </p>
 
-## Layout of repository
-- Python scripts for dataset generation, training and testing.
-  - The entire pipeline can be started with for example
-    ```python
-    python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out \
-    --ntrain 20 --ntest 20 --root auto --task simin_gtout --imageSize 512 --nrep 1 \
-    --datagen_workers 4 --model rcan --nch_in 9 --nch_out 1 --ntrain 780 --ntest 20 \
-    --scale 1 --task simin_gtout --n_resgroups 2 --n_resblocks 5 --n_feats 48 --lr 0.0001 \
-    --nepoch 50 --scheduler 10,0.5 --norm minmax --dataset fouriersim --workers 0 \
-    --batchSize 5 --saveinterval 20 --plotinterval 10 --nplot 5 --Nangle 3 --Nshift 3
-    ```
-    where `SRC_IMAGES` are diverse images from ImageNet, [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (used in publication) or similar image sets. To see all options run `python MLSIM_pipeline.py -h` or see the source code.
-- Jupyter notebooks for dataset generation, training and testing.
-  - _1_PrepareTrainingData_: Simulates the SIM imaging process in order to generate SIM images based on clean source images. This constitutes the training data.
-  - _2_Train_: Training
-- [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App) (see animation above). A graphical desktop app to use trained ML-SIM models on SIM data based on the Electron framework.
-  - More information in separate README in the sub-folder of this repository: [README.md](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App)
+## What is in the repository
 
+| Path | Contents |
+| --- | --- |
+| `reconstruct.py` | Reconstruct TIFF stacks with the pre-trained model |
+| `MLSIM_pipeline.py` | Dataset generation and training in one command |
+| `MLSIM_datagen/` | The SIM image formation model, adapted from [OpenSIM](https://github.com/LanMai/OpenSIM), and the Streamlit app |
+| `models.py`, `run.py`, `datahandler.py`, `options.py` | Network architectures, training loop, data loading and command line options |
+| `1_PrepareTrainingData.ipynb`, `2_Train.ipynb`, `3_Evaluate.ipynb` | The same pipeline as step by step notebooks |
+| `Test_data/` | Raw stacks from two microscopes and two simulated test targets |
+| `Graphical-App/` | An Electron desktop app for batch reconstruction, with its own [README](Graphical-App) |
+| `fig/make_figures.py` | Regenerates the figures on this page from `Test_data` |
 
-## Resources
-- Pre-trained model for 3x3 SIM images at 512x512 pixel resolution. [Download link](https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth). See the notebook `3_Evaluate.ipynb` for how to run this pre-trained model.
-- DIV2K source image set used for dataset generation for ML-SIM. [Download link](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip).
+The pre-trained weights are also available as a [direct download](https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth).
 
+## Limits
 
-## Graphical desktop app
-An easy to install and use desktop app for Windows 10, macOS and Linux is available as an Electron app. Instructions and all source code to run the app is given in the sub folder [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App). The program allows one to batch process a set of directories including subdirectories that contain TIFF stacks, and customise and select the model that is used for reconstruction. See screenshot below.
-
-<img src="fig/screenshot 20200511.jpg">
-
+- The released model handles 2D SIM with nine frames. Other acquisition schemes need a retrained model, and 3D SIM is not supported.
+- The simulation does not model out-of-focus light. Thick samples with dense background above or below the focal plane can produce artefacts, as they do with classical reconstruction.
+- A network can only be trusted within the conditions it was trained for. For quantitative work on a new kind of sample, check a few reconstructions against a classical method first.
 
 ## Credits
 - OpenSIM (Matlab code) [https://github.com/LanMai/OpenSIM](https://github.com/LanMai/OpenSIM)
