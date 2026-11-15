@@ -86,6 +86,28 @@ ML-SIM learns the inversion from examples. Every training example starts as an o
 
 Because the randomisation covers a wide range of imaging conditions, the trained network copes with real microscopes without modification. The loss is the mean squared error against the ground truth. There is no adversarial term that rewards the network for inventing plausible texture.
 
+## A Python port of the OpenSIM simulator
+
+The training data comes from `MLSIM_datagen/`, a Python port of the SIM image formation model in [OpenSIM](https://github.com/LanMai/OpenSIM), which is written in Matlab. The port is written with NumPy and SciPy. It works on its own when all you need is simulated SIM data, for instance to test a reconstruction algorithm against a known ground truth.
+
+Given any image, it computes the optical transfer function, multiplies the image by the illumination pattern, blurs the result and adds noise. The port adds what the training needs.
+
+- Any number of pattern orientations and phase shifts.
+- Random errors in the phase steps, the orientation and the frequency of the pattern, so that no two stacks share the same illumination.
+- Gaussian or Poisson noise.
+- Spot illumination in place of stripes, with `--SIMmodality spots`.
+
+After `pip install -r requirements.txt`, one command writes a folder of stacks without training anything.
+
+```bash
+python MLSIM_pipeline.py --sourceimages_path MLSIM_datagen/DIV2K_subset --out sim_out --root auto \
+    --dataonly --imageSize 512 --scale 1 --Nangles 3 --Nshifts 3 --ntrain 10 --ntest 0
+```
+
+Each TIFF in `sim_out/SIMdata` holds the raw frames, then the optical transfer function, then the ground truth. Ten 512x512 stacks take about 10 s on a desktop CPU. The stacks are valid input for `reconstruct.py`.
+
+Only the simulation side of OpenSIM is ported. Its reconstruction algorithm is one of the baselines in the paper and is not part of this repository.
+
 ## Train a model for your own microscope
 
 The released model expects 3x3 frames. If your system uses a different number of orientations or phase shifts, another wavelength or numerical aperture, or spot illumination, set the simulation to match and train your own. One command generates the dataset and trains the network.
