@@ -48,6 +48,32 @@ There are two hosted demos if you would rather not install anything.
 - [Reconstruction demo on Hugging Face](https://huggingface.co/spaces/charlesnchr/ML-SIM). Upload a stack or pick one of the examples.
 - [SIM simulator on Streamlit](https://ml-sim.streamlit.app/). Explore the image formation model that produces the training data.
 
+## Results
+
+All four samples below are real acquisitions that the model never trained on. The beads and the endoplasmic reticulum come from a microscope that generates its pattern with a spatial light modulator. The microtubules and the cell membrane come from an interferometric SIM, where a scanning mirror sets the phase and the phase steps are uneven.
+
+<p align="center">
+  <img src="fig/results.png" alt="Wide-field and ML-SIM images of microtubules, a cell membrane, 200 nm beads and endoplasmic reticulum" width="900">
+</p>
+
+A cluster of 200 nm beads shows the gain in resolution. Wide-field imaging merges the cluster into one blob. ML-SIM separates the six beads, and a line through three of them shows three distinct peaks.
+
+<p align="center">
+  <img src="fig/line-profile.png" alt="Line profile through three neighbouring beads, one plateau in wide-field and three peaks in ML-SIM" width="900">
+</p>
+
+On simulated test sets, where the ground truth is known, ML-SIM scores about 2 dB above the best classical method. The classical methods were tuned for their best achievable output on these images.
+
+| Method | DIV2K test, PSNR (dB) | DIV2K test, SSIM | Kodak 24, PSNR (dB) | Kodak 24, SSIM |
+| --- | :---: | :---: | :---: | :---: |
+| Wide-field | 25.31 | 0.84 | 24.05 | 0.85 |
+| CC-SIM | 25.37 | 0.89 | 24.61 | 0.86 |
+| FairSIM | 25.34 | 0.86 | 25.32 | 0.86 |
+| OpenSIM | 28.46 | 0.91 | 27.36 | 0.92 |
+| **ML-SIM** | **30.30** | **0.95** | **30.22** | **0.96** |
+
+<sub>From Table 1 of the <a href="https://arxiv.org/abs/2003.11064">preprint</a>. The <a href="https://doi.org/10.1364/BOE.414680">paper</a> also covers the noise sweep, the timing benchmark and a comparison with FairSIM on microtubules separated by about 150 nm.</sub>
+
 ## Update – July 2023: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
@@ -65,11 +91,6 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 Below is a preview of the interactive Streamlit application:
 
 ![ML-SIM image formation Streamlit](fig/ML-SIM-image-formation-Streamlit.gif)
-
-
-## ML-SIM in action
-A demonstration of the graphical user interface that has been developed for ML-SIM is shown below. It relies on an engine written in Python using various image libraries for parsing the many formats used in scientific  imaging and Pytorch for deep learning purposes. The functionality of applying ML-SIM in this app is fit for end-users as it stands. More features are planned such as generating new SIM datasets and training new models on those datasets within the app. Over time this software will also be extended with other plugins that rely on deep learning for other image processing tasks. [Read more](#Graphical-desktop-app).
-![ML-SIM Graphical desktop app animation](fig/ML-SIM.gif)
 
 
 ## How it works
