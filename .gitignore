@@ -5,3 +5,9 @@ __pycache__
 # Downloaded weights and outputs of reconstruct.py
 *.pth
 reconstructions/
+
+# Desktop app build output and Python environment
+Graphical-App/build
+Graphical-App/dist
+Graphical-App/pyengine/.venv
+Graphical-App/pyengine/models
