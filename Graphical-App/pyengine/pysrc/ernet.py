@@ -267,6 +267,8 @@ def processImage(net,opt,imgfile,img,savepath_in,savepath_out,idxstr):
             imageSize += 250
         print('Set imageSize to',imageSize)
 
+    imageSize = min(imageSize, h, w) # images smaller than one tile
+
     device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
 
     # img_norm = (img - np.min(img)) / (np.max(img) - np.min(img)) 
@@ -422,8 +424,11 @@ def EvaluateModel(opt,conn,graph_metrics=False):
             savepath_out = imgfile.replace(ext,'_out_' + idxstr + '.png')
             savepath_in = imgfile.replace(ext,'_in_' + idxstr + '.png')
             basesavepath_graphfigures = imgfile.replace(ext,'')
-        else: 
-            pass # not implemented
+        else: # save in the export folder
+            base = os.path.join(opt.exportdir, '%s_%s' % (opt.jobname, os.path.splitext(os.path.basename(imgfile))[0]))
+            savepath_out = base + '_out_' + idxstr + '.png'
+            savepath_in = base + '_in_' + idxstr + '.png'
+            basesavepath_graphfigures = base
 
         # process image
         if len(img.shape) == 2:            
@@ -529,7 +534,8 @@ def remove_isolated_pixels(image):
 
 
 def binariseImage(I):
-    ind = I[:,:,0] > 250
+    # tubules are 255 in the grey output and red in the WEKA colours
+    ind = (I[:,:,0] if I.ndim == 3 else I) > 250
     Ibin = np.zeros((I.shape[0],I.shape[1])).astype('uint8')
     Ibin[ind] = 255
     Ibin = remove_isolated_pixels(Ibin)
@@ -670,8 +676,7 @@ def segment(exportdir,filepaths,conn,weka_colours,stats_tubule_sheet,graph_metri
     opt.scale = 1
     
     
-    if save_in_original_folders:
-        opt.out = "root"
+    opt.out = "root" if save_in_original_folders else "export"
 
     print(opt)
     
