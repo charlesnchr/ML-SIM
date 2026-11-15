@@ -44,7 +44,7 @@ class ImageView extends Component {
           height: sess.headerHeight
         }}
       >
-        <Grid container alignItems="center" justify="space-between" spacing={2} style={{paddingTop:30}}>
+        <Grid container alignItems="center" justifyContent="space-between" spacing={2} style={{paddingTop:30}}>
         {this.state.filepath}  
         </Grid>
       </div>

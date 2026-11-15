@@ -67,9 +67,9 @@ export default class ImgsizeSlider extends Component {
   
     render() {
       return (
-        <Grid container direction="row" justify="flex-end" alignItems="center">
+        <Grid container direction="row" justifyContent="flex-end" alignItems="center">
           <Grid item>
-            <Grid container direction="row" justify="flex-end">
+            <Grid container direction="row" justifyContent="flex-end">
               <Grid item></Grid>
               <Grid item>
                 <ThemeProvider theme={darktheme}>

@@ -113,7 +113,7 @@ export default class Plugin_SIM extends Component {
     return (
       <>
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item style={{ paddingBottom: 5 }}>
               <ExtensionIcon
                 style={{
@@ -143,7 +143,7 @@ export default class Plugin_SIM extends Component {
             direction="column"
             container
             spacing={1}
-            justify="flex-start"
+            justifyContent="flex-start"
             style={{ padding: "0 6px 0 3px" }}
           >
             <Grid item className="calcStatus">

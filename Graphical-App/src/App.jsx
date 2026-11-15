@@ -415,7 +415,7 @@ class App extends Component {
           height: sess.headerHeight,
         }}
       >
-        <Grid container alignItems="center" justify="space-between" spacing={2}>
+        <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
           <Grid item style={{ width: sess.sidePanelWidth }}>
             <img src={logo} alt="logo" height={40} style={{marginTop:12}} />
           </Grid>
@@ -477,7 +477,7 @@ class App extends Component {
             <CircularProgress color="inherit" />
           </Backdrop>
 
-          <Grid container justify="flex-start">
+          <Grid container justifyContent="flex-start">
             <Grid
               item
               style={{

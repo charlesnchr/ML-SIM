@@ -174,7 +174,7 @@ class SidePanel extends Component {
       <Grid
         container
         key={key}
-        justify="flex-start"
+        justifyContent="flex-start"
         alignItems="center"
         className={
           "folderEntry " +
@@ -193,7 +193,7 @@ class SidePanel extends Component {
           />
         </Grid>
         <Grid item style={{ width: "80%" }}>
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>{label}</Grid>
             <Grid
               item
@@ -344,7 +344,7 @@ class SidePanel extends Component {
         {/* FOLDERS */}
 
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>Folders</Grid>
             <Grid item>
               {conditionalRemoveCircleIcon}
@@ -408,7 +408,7 @@ class SidePanel extends Component {
         {/* EXPORT */}
 
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item style={{ paddingBottom: 5 }}>
               File management
             </Grid>
