@@ -25,7 +25,7 @@ import logo from "./logo.png";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 
 const { ipcRenderer } = window.require("electron");
@@ -53,7 +53,7 @@ import * as FileUtils from "./FileUtils";
 window.updateblocks = true;
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {},
   typography: {
     fontFamily: "Roboto",

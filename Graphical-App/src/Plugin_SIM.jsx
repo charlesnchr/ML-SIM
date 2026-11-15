@@ -14,7 +14,7 @@ import Select from "@material-ui/core/Select";
 import grey from "@material-ui/core/colors/grey";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 import log from "./log";
@@ -23,7 +23,7 @@ import sess from "./sess";
 
 
 
-const mytheme = createMuiTheme({
+const mytheme = createTheme({
   palette: {
     type: "dark",
   },

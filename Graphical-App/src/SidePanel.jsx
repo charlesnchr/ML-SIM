@@ -26,7 +26,7 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 import Plugin_SIM from "./Plugin_SIM";
 import Plugin_ERNet from "./Plugin_ERNet";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 const Store = window.require("electron-store");
@@ -38,7 +38,7 @@ var path = window.require("path");
 import sess from "./sess";
 import { revealFile } from "./platform";
 
-const mytheme = createMuiTheme({
+const mytheme = createTheme({
   palette: {
     type: "dark",
   },

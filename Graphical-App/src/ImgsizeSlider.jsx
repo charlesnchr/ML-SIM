@@ -9,10 +9,10 @@ import Slider from "@material-ui/core/Slider";
 import ImageIcon from "@material-ui/icons/Image";
 
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import log from "./log";
 
-const darktheme = createMuiTheme({
+const darktheme = createTheme({
     palette: {
       type: "dark",
     },
