@@ -1,80 +1,62 @@
-# ML-SIM Graphical Desktop Application
+# ML-SIM desktop app
 
-**Author of this repository**:
-- Name: Charles Nicklas Christensen
-- GitHub: [charlesnchr](http://github.com/charlesnchr)
-- Email: <code>charles.n.chr@gmail.com</code>
-- Twitter: [charlesnchr](https://twitter.com/charlesnchr)
+A desktop interface for running ML-SIM on folders of SIM stacks. It shows the stacks in a folder as thumbnails, reconstructs the ones you select with the pre-trained model, and displays the results next to each other. The interface is an Electron app. The reconstruction runs in a Python process that the app starts and talks to over a local socket.
 
-This sub-project of ML-SIM provides an easy-to-use graphical user interface based on the Electron framework and an engine written in Python to apply the neural network models trained with the ML-SIM method. 
+<p align="center">
+  <img src="../fig/desktop-app.png" alt="The ML-SIM desktop app showing reconstructed test images" width="820">
+</p>
 
-### To-do
+## Requirements
 
-- Dropdown model selection to integrate with Python engine. Currently the path for a pre-trained model is hardcoded into `mlsim_lib.py`
-- Complete plug-in framework so that other image processing routines can be used
-- Support SIM dataset generation within the app based on the simulation code in `../MLSIM_datagen`.
-- Implement training routines for generated datasets.
+- Node.js 22.12 or newer
+- Python 3.10 or newer (tested with 3.11)
+- About 6 GB of disk space for PyTorch and the other Python packages
 
-## Installation
+A GPU is optional. The engine uses CUDA when PyTorch finds it, and takes about 10 s per stack on a desktop CPU.
 
+## Install and run
 
-### Dependencies
-Installation of NodeJS and Yarn are required for building the project. Following version have been tested:
-- NodeJS 13.7.0
-- Yarn 1.21.1
-- Anaconda 3
-
-
-On Windows, [Chocolatey](https://chocolatey.org/install) is recommended for installation of these dependencies using the following commands in an administrative shell:
-```choco install nodejs yarn```
-
-On macOS, [Homebrew](https://brew.sh/) can be used:
-```brew install yarn node```
-
-Similarly easy install commands tend to be available on Linux distributions, e.g. with *apt-get* on Ubuntu.
-
-### Installing the project
-Open a terminal and go to the root of the project. Then run the command
-
-```yarn``` 
-
-Download required Pytorch models:
-
-```yarn download-models```
-
-The model can also be downloaded explicitly, but the above script is recommended for proper folder placement. [Download link](https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth).
-
-#### Setup Python environment
-First download and install Anaconda if you do not have it: https://www.anaconda.com/products/individual
-
-```
-conda create -n ML-SIM python=3.6
-```
-Make sure to do "conda init" on a fresh install of Anaconda for environment switching to be possible. Now run:
-```
-conda activate ML-SIM
-```
-Install the Python module pipenv to manage the virtual Python environment and install all packages from the Pipfile
-```
-pip install pipenv
-pipenv install
-```
-As of now it is not possible to install packages with the Pipfile by specifying a link via ```-f```, so in order to setup Pytorch, use the following command
-```
-pipenv run pip install torch==1.8.1+cu102 -f https://download.pytorch.org/whl/torch_stable.html
-```
-or in macOS and Linux simply
-```
-pipenv run pip install torch
+```bash
+cd Graphical-App
+npm install
+npm run setup-engine
+npm run app
 ```
 
-## Run the app
-First you start the Python engine with (assuming current directory is as above)
-```
-yarn socket
-```
-Assuming everything has initialised well, you should see a terminal print line saying **now listening**. You are now ready to start the graphical user interface with:
-```
-yarn start
-``` 
-which will start Electron.
+`npm run setup-engine` creates a virtual environment in `pyengine/.venv` and installs the packages from `pyengine/requirements.txt` into it. To use an existing Python environment, skip that step and set `MLSIM_PYTHON` to its interpreter.
+
+The first launch downloads the models (84 MB) from the [v1.0 release](https://github.com/charlesnchr/ML-SIM/releases/tag/v1.0) and checks their SHA-256. `npm run download-models` does the same without starting the app.
+
+## Use
+
+1. Press the plus next to Folders and choose a folder with TIFF stacks. `../Test_data` works. The ML-SIM model expects at least nine frames per stack, three orientations with three phase shifts each.
+2. Right-click images to select them, or drag with the right button held. A left click opens an image in its own window.
+3. Press Run ML-SIM. It processes the selection, or every image in the library if nothing is selected.
+4. The results replace the library view. The arrows in the header switch between the two.
+
+Each reconstruction is written to the export folder, which is `Documents/Mambio` unless you change it under File, Settings. Per stack you get the reconstruction as a 32-bit TIFF and an 8-bit PNG, plus colour-mapped PNGs of the reconstruction (`_sr`) and the wide-field image (`_wf`).
+
+The Plugins menu switches the side panel to ERnet, which segments endoplasmic reticulum images into tubules and sheets. [ERnet-v2](https://github.com/charlesnchr/ERnet-v2) is the maintained version of that method.
+
+## Develop
+
+`npm start` runs the Vite dev server and Electron together, with hot reload for the interface.
+
+| Path | Contents |
+| --- | --- |
+| `electron/` | Main process: windows, model download, starting the engine and relaying messages to it |
+| `src/` | The React interface |
+| `pyengine/pysrc/` | The Python engine: `engine.py` is the socket server, `mlsim_lib.py` runs the model |
+| `scripts/` | `setup-engine` and `download-models` |
+
+The engine also runs on its own with `python engine.py <port>` from `pyengine/pysrc`. The app logs the engine's output under the `[engine]` prefix, in the terminal and in the electron-log file.
+
+`npm run dist` packages the app with electron-builder. The package contains the engine source but not Python, so the target machine needs a Python environment with the packages from `requirements.txt`, selected with `MLSIM_PYTHON`.
+
+## Status
+
+Version 2.0 moved the app from Electron 6 and Create React App to Electron 45 and Vite, and replaced the downloaded Windows engine binary with the Python source in this folder. It was tested on Linux with PyTorch 2.15 on CPU, both from source and as an unpacked electron-builder package. Windows and macOS have not been tested since that change.
+
+- The interface still uses React 17, Material UI 4 and Blueprint 3.
+- The μManager switch starts a socket server for a live reconstruction view during acquisition. It has not been tested since the update.
+- The model menus list one model each. To use your own, replace the file in `pyengine/models` and the options in `mlsim_lib.py`.
