@@ -1,7 +1,7 @@
 {
   "name": "ML-SIM",
   "description": "Deep neural network for reconstruction of structured illumination microscopy images",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "author": "Charles N. Christensen",
   "version": "1.0.5",
   "private": true,
