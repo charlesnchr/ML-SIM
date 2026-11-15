@@ -74,6 +74,18 @@ On simulated test sets, where the ground truth is known, ML-SIM scores about 2 d
 
 <sub>From Table 1 of the <a href="https://arxiv.org/abs/2003.11064">preprint</a>. The <a href="https://doi.org/10.1364/BOE.414680">paper</a> also covers the noise sweep, the timing benchmark and a comparison with FairSIM on microtubules separated by about 150 nm.</sub>
 
+## How it works
+
+A SIM microscope lights the sample with a striped pattern and records nine frames, three stripe orientations with three phase shifts each. The stripes beat against fine detail in the sample and shift it down to frequencies the lens can pass, the same way two fine meshes laid over each other produce a coarse moiré. Reconstruction means recovering that detail from the nine frames.
+
+ML-SIM learns the inversion from examples. Every training example starts as an ordinary photograph, which serves as the ground truth. A simulation of the SIM imaging process turns it into a nine-frame raw stack with random pattern parameters, optical blur and noise. A residual channel attention network ([RCAN](https://github.com/yulunzhang/RCAN) without the upsampling stage, 5.4 million parameters) takes the nine frames as input channels and learns to return the photograph.
+
+<p align="center">
+  <img src="fig/pipeline.png" alt="Training pipeline: photographs are passed through a SIM simulation, and the network learns to recover the original image" width="820">
+</p>
+
+Because the randomisation covers a wide range of imaging conditions, the trained network copes with real microscopes without modification. The loss is the mean squared error against the ground truth. There is no adversarial term that rewards the network for inventing plausible texture.
+
 ## Update – July 2023: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
@@ -91,12 +103,6 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 Below is a preview of the interactive Streamlit application:
 
 ![ML-SIM image formation Streamlit](fig/ML-SIM-image-formation-Streamlit.gif)
-
-
-## How it works
-ML-SIM uses synthetic training data that is simulated based on an physically accurate implementation of the SIM (structured illumination microscopy) imaging process. A deep neural network is trained to solve the inverse problem and with transfer learning it is possible to make the trained model work well on experimental data from the lab.
-![Pipeline depiction of ML-SIM](fig/pipeline.png)
-
 
 
 ## Layout of repository
