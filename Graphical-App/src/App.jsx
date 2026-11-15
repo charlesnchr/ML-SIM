@@ -193,6 +193,13 @@ class App extends Component {
         if (res === "e") {
           this.setState({ engineStatus: "Installing engine.." });
           log.info("Renderer: extraction ongoing");
+        } else if (res[0] === "x") {
+          // the engine could not start, keep polling slowly in case it recovers
+          this.setState({ engineStatus: res.substring(2) });
+          setTimeout(() => {
+            ipcRenderer.send("EngineStatus");
+          }, 2000);
+          return;
         } else if (res[0] === "d") {
           let dl_status = res.split(",")[1];
           let downloadMsg = "Downloading required files.. " + dl_status + " %";
