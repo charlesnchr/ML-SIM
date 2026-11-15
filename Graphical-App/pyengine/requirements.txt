@@ -1,0 +1,14 @@
+# Python packages for the ML-SIM desktop engine.
+# `npm run setup-engine` installs them into pyengine/.venv.
+torch
+torchvision
+numpy
+scipy
+scikit-image
+opencv-python-headless
+tifffile
+pillow
+matplotlib
+appdirs
+networkx
+sknw
