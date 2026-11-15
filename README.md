@@ -1,14 +1,25 @@
-# ML-SIM
+<h1 align="center">ML-SIM</h1>
 
-**ML-SIM: universal reconstruction of structured illumination microscopy images using transfer learning**
+<p align="center">
+  <b>Super-resolution microscopy reconstruction, learned from simulation alone.</b><br>
+  One forward pass turns nine raw SIM frames into a super-resolved image.<br>
+  Nothing to tune, and no microscope data needed for training.
+</p>
 
-_Charles N. Christensen<sup>1,2,*</sup>, Edward N. Ward<sup>1</sup>, Meng Lu<sup>1</sup>, Pietro Lio<sup>2</sup>, Clemens F. Kaminski_</br></br>
-<sup>1</sup>University of Cambridge, Department of Chemical Engineering and Biotechnology, Laser Analytics Group</br>
-<sup>2</sup>University of Cambridge, Department of Computer Science and Technology, Artificial Intelligence Group</br>
-<sup> *</sup>**Author of this repository**:
-- GitHub: [charlesnchr](http://github.com/charlesnchr)
-- Email: <code>charles.n.chr@gmail.com</code>
-- Twitter: [charlesnchr](https://twitter.com/charlesnchr)
+<p align="center">
+  <a href="https://doi.org/10.1364/BOE.414680"><img src="https://img.shields.io/badge/Biomedical%20Optics%20Express-2021-b31b1b" alt="Paper in Biomedical Optics Express"></a>
+  <a href="https://arxiv.org/abs/2003.11064"><img src="https://img.shields.io/badge/arXiv-2003.11064-b31b1b" alt="arXiv preprint"></a>
+  <a href="https://huggingface.co/spaces/charlesnchr/ML-SIM"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-demo-blue" alt="Hugging Face demo"></a>
+  <a href="https://ml-sim.streamlit.app/"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Streamlit simulator"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-blue" alt="GPL-3.0 license"></a>
+</p>
+
+<p align="center">
+  <img src="fig/hero.gif" alt="Wide-field images of microtubules, beads and endoplasmic reticulum wiping to their ML-SIM reconstructions" width="900">
+</p>
+<p align="center">
+  <sub>Raw acquisitions from two home-built SIM microscopes, reconstructed with the model in this repository. Run <code>python reconstruct.py Test_data/*.tif</code> to reproduce them.</sub>
+</p>
 
 ## Update – July 2023: Interactive Streamlit Application
 
