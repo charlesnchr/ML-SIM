@@ -649,7 +649,7 @@ def segment(exportdir,filepaths,conn,weka_colours,stats_tubule_sheet,graph_metri
     opt.save_input = save_input
     
     opt.exportdir = exportdir
-    opt.jobname = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')[:-3]
+    opt.jobname = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
 
     if stats_tubule_sheet:
         csvfid_path = '%s/%s_stats_tubule_sheet.csv' % (opt.exportdir, opt.jobname)
