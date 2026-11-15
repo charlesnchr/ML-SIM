@@ -120,11 +120,23 @@ const sendToPython = (event, json) => {
 //*
 //* Subprocess function
 //*
-const port = 5002;
+let port = null; // chosen when the engine starts
 let pyProc = null;
 let quitting = false;
 
-const createPyProc = ({ python, script, modelDir, onFailure }) => {
+// Ask the operating system for a free local port.
+const getFreePort = () =>
+  new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.on("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const freePort = server.address().port;
+      server.close(() => resolve(freePort));
+    });
+  });
+
+const createPyProc = async ({ python, script, modelDir, onFailure }) => {
+  port = await getFreePort();
   const useCloud = store.get("useCloud") ? "1" : "0";
   const cachedir = store.get("cachedir");
 
