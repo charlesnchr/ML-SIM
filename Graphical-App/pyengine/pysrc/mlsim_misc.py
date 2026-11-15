@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
-from vgg import vgg19
 import glob
 from PIL import Image, ImageFile  # ImageOps
 from io import BytesIO
-import requests
 
 import random
 import numpy as np

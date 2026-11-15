@@ -1,4 +1,3 @@
-import requests
 import datetime
 import traceback
 import tifffile as tiff
