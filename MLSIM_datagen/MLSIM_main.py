@@ -8,6 +8,7 @@ from multiprocessing import Pool, set_start_method
 
 from SIMulator_functions import (
     Generate_SIM_Image,
+    cosine_wave,
     cos_wave,
     cos_wave_envelope,
     square_wave_one_third,
@@ -139,7 +140,7 @@ def GetParams_20230625(opt):  # uniform randomisation
     SIMopt.noStripes = opt.noStripes
 
     # function to use for stripes
-    SIMopt.func = np.cos
+    SIMopt.func = cosine_wave
 
     SIMopt.patterns = opt.patterns
     SIMopt.crop_factor = opt.crop_factor
@@ -211,7 +212,7 @@ def GetParams_20230410(opt):  # uniform randomisation
 
     # function to use for stripes
     SIMopt.func = (
-        np.cos
+        cosine_wave
         if np.random.rand() < 0.5
         else square_wave_one_third
     )
@@ -266,7 +267,7 @@ def GetParams(opt):  # uniform randomisation
     SIMopt.noStripes = opt.noStripes
 
     # function to use for stripes
-    SIMopt.func = np.cos
+    SIMopt.func = cosine_wave
 
     SIMopt.patterns = opt.patterns
     SIMopt.crop_factor = opt.crop_factor

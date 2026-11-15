@@ -12,6 +12,9 @@ from numba import jit
 import time
 import streamlit as st
 
+def cosine_wave(x, opt):
+    return np.cos(x)
+
 def cos_wave(x, opt):
     return np.clip(np.cos(x), 0, 1)
 

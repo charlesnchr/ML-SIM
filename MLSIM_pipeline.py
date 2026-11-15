@@ -24,6 +24,12 @@ from MLSIM_main import Paralleliser
 if __name__ == "__main__":
     opt = parser.parse_args()
 
+    # --imageSize takes one value for a square image, or height and width
+    if isinstance(opt.imageSize, int):
+        opt.imageSize = [opt.imageSize]
+    if len(opt.imageSize) == 1:
+        opt.imageSize = opt.imageSize * 2
+
     if opt.root == "auto":
         opt.root = opt.out + "/SIMdata"
         os.makedirs(opt.root, exist_ok=True)
