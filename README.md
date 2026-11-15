@@ -143,7 +143,7 @@ Before you spend GPU hours, check your optical parameters in the [Streamlit app]
 | --- | --- |
 | `reconstruct.py` | Reconstruct TIFF stacks with the pre-trained model |
 | `MLSIM_pipeline.py` | Dataset generation and training in one command |
-| `MLSIM_datagen/` | The SIM image formation model, adapted from [OpenSIM](https://github.com/LanMai/OpenSIM), and the Streamlit app |
+| `MLSIM_datagen/` | A Python port of the [OpenSIM](https://github.com/LanMai/OpenSIM) simulator, with the extensions used for training, and the Streamlit app |
 | `models.py`, `run.py`, `datahandler.py`, `options.py` | Network architectures, training loop, data loading and command line options |
 | `1_PrepareTrainingData.ipynb`, `2_Train.ipynb`, `3_Evaluate.ipynb` | The same pipeline as step by step notebooks |
 | `Test_data/` | Raw stacks from two microscopes and two simulated test targets |
