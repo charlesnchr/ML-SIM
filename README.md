@@ -86,24 +86,31 @@ ML-SIM learns the inversion from examples. Every training example starts as an o
 
 Because the randomisation covers a wide range of imaging conditions, the trained network copes with real microscopes without modification. The loss is the mean squared error against the ground truth. There is no adversarial term that rewards the network for inventing plausible texture.
 
-## Update – July 2023: Interactive Streamlit Application
+## Train a model for your own microscope
 
-Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
+The released model expects 3x3 frames. If your system uses a different number of orientations or phase shifts, another wavelength or numerical aperture, or spot illumination, set the simulation to match and train your own. One command generates the dataset and trains the network.
 
-Access the Streamlit application here:
+```bash
+python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out --root auto \
+    --task simin_gtout --dataset fouriersim --norm minmax \
+    --imageSize 512 --Nangle 3 --Nshift 3 --nch_in 9 --nch_out 1 --scale 1 \
+    --ntrain 780 --ntest 20 --nrep 1 --datagen_workers 4 \
+    --model rcan --n_resgroups 2 --n_resblocks 5 --n_feats 48 \
+    --lr 0.0001 --nepoch 50 --scheduler 10,0.5 --batchSize 5 --workers 0 \
+    --saveinterval 20 --plotinterval 10 --nplot 5
+```
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ml-sim.streamlit.app/)
+`SRC_IMAGES` is a folder of varied images such as [DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip), which the paper used, or ImageNet. The released model uses a larger network, `--n_resgroups 3 --n_resblocks 10 --n_feats 96`. Training needs a CUDA GPU and the full set of packages from `pip install -r requirements.txt`. Add `--disable_wandb` to skip logging to Weights & Biases, and run `python MLSIM_pipeline.py -h` for every option.
 
-To play with the Streamlit application locally, execute the following command:
+Before you spend GPU hours, the Streamlit app shows what a set of optical parameters does to the raw frames and to the frequency support of the reconstruction. It is [hosted here](https://ml-sim.streamlit.app/) and also runs locally.
 
 ```bash
 streamlit run MLSIM_datagen/streamlit_frequency_support.py
 ```
 
-Below is a preview of the interactive Streamlit application:
-
-![ML-SIM image formation Streamlit](fig/ML-SIM-image-formation-Streamlit.gif)
-
+<p align="center">
+  <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
+</p>
 
 ## Layout of repository
 - Python scripts for dataset generation, training and testing.
