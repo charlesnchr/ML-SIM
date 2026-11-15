@@ -52,7 +52,7 @@
   },
   "main": "electron/main.js",
   "scripts": {
-    "download-models": "node util/download_models.js",
+    "download-models": "node scripts/download-models.js",
     "electron-build": "cross-env electron-builder",
     "electron-build-publish": "cross-env electron-builder --publish=always",
     "electron-build-publish-github": "cross-env electron-builder --config.publish.provider=github --publish=always",
