@@ -32,7 +32,7 @@ const Store = window.require("electron-store");
 const store = new Store();
 
 const log = window.require("electron-log");
-const remote = window.require("electron").remote;
+const remote = window.require("@electron/remote");
 var path = window.require("path");
 import sess from "./sess";
 

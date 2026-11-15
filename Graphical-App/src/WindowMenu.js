@@ -1,4 +1,4 @@
-const remote = window.require("electron").remote;
+const remote = window.require("@electron/remote");
 const shell = window.require("electron").shell;
 const Store = window.require("electron-store");
 const store = new Store();

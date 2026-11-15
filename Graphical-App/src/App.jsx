@@ -29,7 +29,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 const shell = window.require("electron").shell;
-const remote = window.require("electron").remote;
+const remote = window.require("@electron/remote");
 
 const app = remote.app;
 
