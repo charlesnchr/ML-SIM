@@ -106,6 +106,16 @@ python MLSIM_pipeline.py --sourceimages_path MLSIM_datagen/DIV2K_subset --out si
 
 Each TIFF in `sim_out/SIMdata` holds the raw frames, then the optical transfer function, then the ground truth. Ten 512x512 stacks take about 10 s on a desktop CPU. The stacks are valid input for `reconstruct.py`.
 
+The Streamlit app runs the same code interactively. It shows what a set of optical parameters does to the raw frames and to the frequency support of the reconstruction, and it adds square-wave stripes to the choice of patterns. It is [hosted here](https://ml-sim.streamlit.app/) and runs locally.
+
+```bash
+streamlit run MLSIM_datagen/streamlit_frequency_support.py
+```
+
+<p align="center">
+  <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
+</p>
+
 Only the simulation side of OpenSIM is ported. Its reconstruction algorithm is one of the baselines in the paper and is not part of this repository.
 
 ## Train a model for your own microscope
@@ -124,15 +134,7 @@ python MLSIM_pipeline.py --sourceimages_path SRC_IMAGES --out ~/model_out --root
 
 `SRC_IMAGES` is a folder of varied images such as [DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip), which the paper used, or ImageNet. The released model uses a larger network, `--n_resgroups 3 --n_resblocks 10 --n_feats 96`. Training needs a CUDA GPU and the full set of packages from `pip install -r requirements.txt`. Add `--disable_wandb` to skip logging to Weights & Biases, and run `python MLSIM_pipeline.py -h` for every option.
 
-Before you spend GPU hours, the Streamlit app shows what a set of optical parameters does to the raw frames and to the frequency support of the reconstruction. It is [hosted here](https://ml-sim.streamlit.app/) and also runs locally.
-
-```bash
-streamlit run MLSIM_datagen/streamlit_frequency_support.py
-```
-
-<p align="center">
-  <img src="fig/streamlit-simulator.gif" alt="The Streamlit app showing simulated SIM frames and their frequency support as parameters change" width="820">
-</p>
+Before you spend GPU hours, check your optical parameters in the [Streamlit app](#a-python-port-of-the-opensim-simulator).
 
 ## What is in the repository
 
