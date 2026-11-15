@@ -186,6 +186,6 @@ The code and the pre-trained weights are released under the [GNU General Public 
 
 ## Credits
 
-- [OpenSIM](https://github.com/LanMai/OpenSIM) for the Matlab image formation model that the simulation is based on.
+- [OpenSIM](https://github.com/LanMai/OpenSIM) for the Matlab image formation model that `MLSIM_datagen/` ports to Python.
 - [RCAN](https://github.com/yulunzhang/RCAN) for the network architecture.
 - [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) for the training images.
