@@ -146,6 +146,7 @@ const createPyProc = async ({ python, script, modelDir, onFailure }) => {
     env: {
       ...process.env,
       MLSIM_MODELS_DIR: modelDir,
+      MLSIM_EXIT_WITH_PARENT: "1",
       PYTHONUNBUFFERED: "1",
     },
   });
