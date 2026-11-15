@@ -16,7 +16,6 @@ import SettingsMenu from "./SettingsMenu";
 import ImgContainer from "./ImgContainer";
 import ImgsizeSlider from "./ImgsizeSlider";
 import SidePanel from "./SidePanel";
-import AppUpdate from "./AppUpdate";
 import AboutMenu from "./AboutMenu";
 import WindowMenuRender from "./WindowMenu";
 
@@ -117,7 +116,6 @@ class App extends Component {
     sess.readFolders = this.readFolders.bind(this);
     sess.showBackdrop = this.showBackdrop.bind(this);
     sess.hideBackdrop = this.hideBackdrop.bind(this);
-    if (!isDev) AppUpdate(); // update service
   }
 
   showBackdrop() {
