@@ -267,6 +267,8 @@ def processImage(net,opt,imgfile,img,savepath_in,savepath_out,idxstr):
             imageSize += 250
         print('Set imageSize to',imageSize)
 
+    imageSize = min(imageSize, h, w) # images smaller than one tile
+
     device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
 
     # img_norm = (img - np.min(img)) / (np.max(img) - np.min(img)) 
