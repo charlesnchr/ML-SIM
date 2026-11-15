@@ -1,3 +1,7 @@
 .DS_Store
 Graphical-App/node_modules
 __pycache__
+
+# Downloaded weights and outputs of reconstruct.py
+*.pth
+reconstructions/
