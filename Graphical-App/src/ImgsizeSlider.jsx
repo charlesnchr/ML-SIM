@@ -10,7 +10,7 @@ import ImageIcon from "@material-ui/icons/Image";
 
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-const log = window.require("electron-log");
+import log from "./log";
 
 const darktheme = createMuiTheme({
     palette: {

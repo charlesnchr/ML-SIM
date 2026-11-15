@@ -16,7 +16,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
+import log from "./log";
 const remote = window.require("@electron/remote");
 import sess from "./sess";
 

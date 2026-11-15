@@ -41,7 +41,7 @@ if (plugins == null) {
   store.set("plugins", ["ML-SIM"]);
 }
 
-const log = window.require("electron-log");
+import log from "./log";
 const isDev = window.require("electron-is-dev");
 
 import sess from "./sess";

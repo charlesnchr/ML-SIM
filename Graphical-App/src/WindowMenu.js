@@ -2,7 +2,7 @@ const remote = window.require("@electron/remote");
 const shell = window.require("electron").shell;
 const Store = window.require("electron-store");
 const store = new Store();
-const log = window.require("electron-log");
+import log from "./log";
 const Menu = remote.Menu;
 const app = remote.app;
 const process = window.require("process");

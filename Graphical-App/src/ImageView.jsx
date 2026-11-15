@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import sess from "./sess";
 
 const { ipcRenderer } = window.require("electron");
-const log = window.require("electron-log");
+import log from "./log";
 
 class ImageView extends Component {
   constructor(props) {
