@@ -31,6 +31,23 @@ Structured illumination microscopy (SIM) doubles the resolution of a fluorescenc
 - **Robust to noise and irregular patterns.** It reconstructed interferometric SIM data with uneven phase steps that two of the three classical methods could not process. At high noise FairSIM and CC-SIM scored below the unprocessed wide-field image, while ML-SIM kept improving on it.
 - **Peer reviewed.** Published in [Biomedical Optics Express](https://doi.org/10.1364/BOE.414680) and cited more than 90 times.
 
+## Try it
+
+```bash
+git clone https://github.com/charlesnchr/ML-SIM && cd ML-SIM
+pip install torch torchvision scikit-image
+python reconstruct.py Test_data/*.tif
+```
+
+The first run downloads the pre-trained weights (64 MB). Each stack in `Test_data` gets a wide-field image and an ML-SIM reconstruction in `reconstructions/`. A GPU is used when one is available.
+
+To run it on your own data, pass TIFF stacks whose first nine frames are the raw acquisition, three pattern orientations with three phase shifts each. The released model was trained on 512x512 frames.
+
+There are two hosted demos if you would rather not install anything.
+
+- [Reconstruction demo on Hugging Face](https://huggingface.co/spaces/charlesnchr/ML-SIM). Upload a stack or pick one of the examples.
+- [SIM simulator on Streamlit](https://ml-sim.streamlit.app/). Explore the image formation model that produces the training data.
+
 ## Update – July 2023: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
@@ -50,13 +67,6 @@ Below is a preview of the interactive Streamlit application:
 ![ML-SIM image formation Streamlit](fig/ML-SIM-image-formation-Streamlit.gif)
 
 
-## Update – September 2022: HuggingFace Spaces Demo
-See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test images. A live demo is available at:
-
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/charlesnchr/ML-SIM)
-
-The model used in this demo assumes that the inputs are 9 frame SIM stacks of 512x512 resolution; i.e. 3 orientations and 3 phase shifts. It will work for other dimensions, but is unlikely to be good.
-
 ## ML-SIM in action
 A demonstration of the graphical user interface that has been developed for ML-SIM is shown below. It relies on an engine written in Python using various image libraries for parsing the many formats used in scientific  imaging and Pytorch for deep learning purposes. The functionality of applying ML-SIM in this app is fit for end-users as it stands. More features are planned such as generating new SIM datasets and training new models on those datasets within the app. Over time this software will also be extended with other plugins that rely on deep learning for other image processing tasks. [Read more](#Graphical-desktop-app).
 ![ML-SIM Graphical desktop app animation](fig/ML-SIM.gif)
@@ -66,13 +76,6 @@ A demonstration of the graphical user interface that has been developed for ML-S
 ML-SIM uses synthetic training data that is simulated based on an physically accurate implementation of the SIM (structured illumination microscopy) imaging process. A deep neural network is trained to solve the inverse problem and with transfer learning it is possible to make the trained model work well on experimental data from the lab.
 ![Pipeline depiction of ML-SIM](fig/pipeline.png)
 
-
-
-## Dependencies
-- Python 3.6-3.11
-- Pytorch 1.4 or newer
-
-For more detailed package versions, please see the *Pipfile* in [Graphical-App](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App).
 
 
 ## Layout of repository
