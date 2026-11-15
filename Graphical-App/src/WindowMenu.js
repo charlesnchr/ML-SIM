@@ -102,7 +102,7 @@ const WindowMenuRender = (checkedPlugins) => {
               { role: "toggledevtools" },
               {
                 label: "Relaunch",
-                accelerator: "CmdOrCtrl+Q",
+                accelerator: "CmdOrCtrl+Shift+R",
                 click: () => {
                   app.relaunch();
                   app.exit(0);
@@ -137,7 +137,7 @@ const WindowMenuRender = (checkedPlugins) => {
         {
           label: "Support",
           click: async () => {
-            await shell.openExternal(sess.baseurl + "/support");
+            await shell.openExternal(sess.baseurl + "/issues");
           },
         },
         {

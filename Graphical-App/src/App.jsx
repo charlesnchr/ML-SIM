@@ -25,7 +25,7 @@ import logo from "./logo.png";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 
 const { ipcRenderer } = window.require("electron");
@@ -49,12 +49,11 @@ import sess from "./sess";
 
 import * as FileUtils from "./FileUtils";
 
-if (isDev && false) sess.baseurl = "http://localhost:5000"; // dev of authentication etc.
 
 window.updateblocks = true;
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {},
   typography: {
     fontFamily: "Roboto",
@@ -316,7 +315,7 @@ class App extends Component {
   }
 
   renewSubscription() {
-    shell.openExternal(sess.baseurl + "/profile");
+    shell.openExternal(sess.baseurl);
   }
 
   // state handling
@@ -353,14 +352,14 @@ class App extends Component {
 
   engineStatus() {
     let estat = this.state.engineStatus;
-    log.info("inside engine status", estat);
     if (estat === "active" || estat === "unstarted") {
       return "";
     } else if (estat === "recently-active") {
       return (
         <div
           style={{
-            width: "100%",
+            left: sess.sidePanelWidth,
+            right: 0,
             height: "auto",
             position: "fixed",
             backgroundColor: "green",
@@ -368,7 +367,6 @@ class App extends Component {
             bottom: 0,
             padding: 10,
             fontWeight: "bold",
-            marginLeft: sess.sidePanelWidth,
           }}
         >
           The Python engine is now installed! &nbsp;
@@ -387,7 +385,8 @@ class App extends Component {
       return (
         <div
           style={{
-            width: "100%",
+            left: sess.sidePanelWidth,
+            right: 0,
             height: "auto",
             position: "fixed",
             backgroundColor: "orange",
@@ -395,7 +394,6 @@ class App extends Component {
             bottom: 0,
             padding: 10,
             fontWeight: "bold",
-            marginLeft: sess.sidePanelWidth,
           }}
         >
           Engine not ready:{" "}
@@ -417,7 +415,7 @@ class App extends Component {
           height: sess.headerHeight,
         }}
       >
-        <Grid container alignItems="center" justify="space-between" spacing={2}>
+        <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
           <Grid item style={{ width: sess.sidePanelWidth }}>
             <img src={logo} alt="logo" height={40} style={{marginTop:12}} />
           </Grid>
@@ -479,7 +477,7 @@ class App extends Component {
             <CircularProgress color="inherit" />
           </Backdrop>
 
-          <Grid container justify="flex-start">
+          <Grid container justifyContent="flex-start">
             <Grid
               item
               style={{

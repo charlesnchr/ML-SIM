@@ -9,10 +9,10 @@ import Slider from "@material-ui/core/Slider";
 import ImageIcon from "@material-ui/icons/Image";
 
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import log from "./log";
 
-const darktheme = createMuiTheme({
+const darktheme = createTheme({
     palette: {
       type: "dark",
     },
@@ -67,9 +67,9 @@ export default class ImgsizeSlider extends Component {
   
     render() {
       return (
-        <Grid container direction="row" justify="flex-end" alignItems="center">
+        <Grid container direction="row" justifyContent="flex-end" alignItems="center">
           <Grid item>
-            <Grid container direction="row" justify="flex-end">
+            <Grid container direction="row" justifyContent="flex-end">
               <Grid item></Grid>
               <Grid item>
                 <ThemeProvider theme={darktheme}>

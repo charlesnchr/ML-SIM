@@ -26,7 +26,7 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 import Plugin_SIM from "./Plugin_SIM";
 import Plugin_ERNet from "./Plugin_ERNet";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 const Store = window.require("electron-store");
@@ -38,7 +38,7 @@ var path = window.require("path");
 import sess from "./sess";
 import { revealFile } from "./platform";
 
-const mytheme = createMuiTheme({
+const mytheme = createTheme({
   palette: {
     type: "dark",
   },
@@ -174,7 +174,7 @@ class SidePanel extends Component {
       <Grid
         container
         key={key}
-        justify="flex-start"
+        justifyContent="flex-start"
         alignItems="center"
         className={
           "folderEntry " +
@@ -193,7 +193,7 @@ class SidePanel extends Component {
           />
         </Grid>
         <Grid item style={{ width: "80%" }}>
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>{label}</Grid>
             <Grid
               item
@@ -344,7 +344,7 @@ class SidePanel extends Component {
         {/* FOLDERS */}
 
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>Folders</Grid>
             <Grid item>
               {conditionalRemoveCircleIcon}
@@ -408,7 +408,7 @@ class SidePanel extends Component {
         {/* EXPORT */}
 
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item style={{ paddingBottom: 5 }}>
               File management
             </Grid>

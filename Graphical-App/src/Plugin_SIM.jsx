@@ -14,7 +14,7 @@ import Select from "@material-ui/core/Select";
 import grey from "@material-ui/core/colors/grey";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const { ipcRenderer } = window.require("electron");
 import log from "./log";
@@ -23,7 +23,7 @@ import sess from "./sess";
 
 
 
-const mytheme = createMuiTheme({
+const mytheme = createTheme({
   palette: {
     type: "dark",
   },
@@ -110,7 +110,7 @@ export default class Plugin_SIM extends Component {
     return (
       <>
         <Grid item className="sidepanelSection">
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item style={{ paddingBottom: 5 }}>
               <ExtensionIcon style={{
               fontSize: 16,
@@ -138,7 +138,7 @@ export default class Plugin_SIM extends Component {
             direction="column"
             container
             spacing={1}
-            justify="flex-start"
+            justifyContent="flex-start"
             style={{ padding: "0 6px 0 3px" }}
           >
             <Grid item className="calcStatus">
@@ -167,10 +167,6 @@ export default class Plugin_SIM extends Component {
                   <InputLabel>Selected model</InputLabel>
                   <Select defaultValue="mdl1">
                     <MenuItem value="mdl1">Randomised RCAN - 3x3.pth</MenuItem>
-                    <MenuItem value="mdl2">Randomised RCAN - 3x5.pth</MenuItem>
-                    <MenuItem value="mdl3">
-                      My optimised model - 3x5.pth
-                    </MenuItem>
                   </Select>
                 </FormControl>
                 <FormControlLabel
