@@ -21,6 +21,16 @@
   <sub>Raw acquisitions from two home-built SIM microscopes, reconstructed with the model in this repository. Run <code>python reconstruct.py Test_data/*.tif</code> to reproduce them.</sub>
 </p>
 
+ML-SIM has never seen a microscope image. It learned from photographs of tigers, forests and football crowds, each one passed through a simulation of a structured illumination microscope. The same weights then reconstruct real data from microscopes the model was never fitted to, with no fine-tuning.
+
+Structured illumination microscopy (SIM) doubles the resolution of a fluorescence microscope at speeds that suit live cells. The weak point is the reconstruction. Classical algorithms first estimate the illumination pattern from the data and then unmix it in Fourier space. When that estimate is off, because the sample is dim or the phase steps drifted, the output fills with honeycomb and ringing artefacts, or the algorithm fails outright. ML-SIM replaces the whole procedure with a neural network.
+
+- **No experimental training data.** The training set is generated from the [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) photo collection with randomised stripe frequency, phase, modulation depth, blur and noise. You never have to acquire paired ground truth.
+- **Nothing to tune.** In our comparison FairSIM, OpenSIM and CC-SIM each needed a hand-tuned configuration per dataset. ML-SIM has no settings.
+- **Fast.** Under 200 ms per reconstruction on a GTX 1080 Ti, more than ten times faster than the classical methods and quick enough for a live view during acquisition. About 10 s on an 8-core CPU.
+- **Robust to noise and irregular patterns.** It reconstructed interferometric SIM data with uneven phase steps that two of the three classical methods could not process. At high noise FairSIM and CC-SIM scored below the unprocessed wide-field image, while ML-SIM kept improving on it.
+- **Peer reviewed.** Published in [Biomedical Optics Express](https://doi.org/10.1364/BOE.414680) and cited more than 90 times.
+
 ## Update – July 2023: Interactive Streamlit Application
 
 Announcing a new app in the ML-SIM project: the integration of an interactive Streamlit application for exploring training data with the image formation model that forms the foundation of the training data in ML-SIM. This enables the exploration of the optical parameters relevant to SIM and can provide insight into achievable resolution improvement based on simulated frequency support (OTF area). The app makes it easier to fine-tune and choose parameters before training a custom ML-SIM model.
@@ -47,34 +57,9 @@ See [https://ML-SIM.github.io](https://ML-SIM.github.io) for examples and test i
 
 The model used in this demo assumes that the inputs are 9 frame SIM stacks of 512x512 resolution; i.e. 3 orientations and 3 phase shifts. It will work for other dimensions, but is unlikely to be good.
 
-## ML-SIM Publications
-### Journal Publication, April 2021
-*ML-SIM: universal reconstruction of structured illumination microscopy images using transfer learning*
-  [https://doi.org/10.1364/BOE.414680](https://doi.org/10.1364/BOE.414680)
-
-### Pre-print manuscript, March 2020
-*ML-SIM: A deep neural network for reconstruction of structured illumination microscopy images*
-[https://arxiv.org/abs/2003.11064](https://arxiv.org/abs/2003.11064)
-
-
-
-
 ## ML-SIM in action
 A demonstration of the graphical user interface that has been developed for ML-SIM is shown below. It relies on an engine written in Python using various image libraries for parsing the many formats used in scientific  imaging and Pytorch for deep learning purposes. The functionality of applying ML-SIM in this app is fit for end-users as it stands. More features are planned such as generating new SIM datasets and training new models on those datasets within the app. Over time this software will also be extended with other plugins that rely on deep learning for other image processing tasks. [Read more](#Graphical-desktop-app).
 ![ML-SIM Graphical desktop app animation](fig/ML-SIM.gif)
-
-
-## Status of repository
-Code files, Jupyter notebooks and source code for a graphical desktop app have been added. Further documentation, example reconstruction outputs, pre-trained models and snippets to train and evaluate the models reported in the publications are to be added shortly.
-
-### To-do
-- Improve graphical application (see separate to-do in sub-project [README](https://github.com/charlesnchr/ML-SIM/tree/master/Graphical-App))
-- Add documentation and simple code snippets for training and testing
-- Extend to 3D SIM reconstruction
-- Incorporate spherical abberrations in simulated SIM data for dataset generation
-- Make ImageJ/Fiji plugin
-- Open-source the live web app reconstruction at [https://ML-SIM.com](https://ML-SIM.com)
-- Publish µManager plugin for real-time reconstruction
 
 
 ## How it works
