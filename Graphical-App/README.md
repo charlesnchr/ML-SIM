@@ -42,7 +42,7 @@ Download required Pytorch models:
 
 ```yarn download-models```
 
-The model can also be downloaded explicitly, but the above script is recommended for proper folder placement. [Download link](https://ml-sim.s3.eu-west-2.amazonaws.com/pdist/models/DIV2K_randomised_3x3_20200317.pth).
+The model can also be downloaded explicitly, but the above script is recommended for proper folder placement. [Download link](https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth).
 
 #### Setup Python environment
 First download and install Anaconda if you do not have it: https://www.anaconda.com/products/individual
