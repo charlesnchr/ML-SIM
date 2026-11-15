@@ -50,7 +50,7 @@
       "icon": "dist/icons"
     }
   },
-  "main": "public/electron.js",
+  "main": "electron/main.js",
   "scripts": {
     "download-models": "node util/download_models.js",
     "electron-build": "cross-env electron-builder",
