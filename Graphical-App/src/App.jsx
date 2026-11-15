@@ -44,9 +44,9 @@ if (plugins == null) {
 const log = window.require("electron-log");
 const isDev = window.require("electron-is-dev");
 
-var sess = require("./sess.js");
+import sess from "./sess";
 
-var FileUtils = require("./FileUtils.js");
+import * as FileUtils from "./FileUtils";
 
 if (isDev && false) sess.baseurl = "http://localhost:5000"; // dev of authentication etc.
 

@@ -5,7 +5,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 const { ipcRenderer } = window.require("electron");
 const log = window.require("electron-log");
-var sess = require("./sess.js");
+import sess from "./sess";
 
 
 class CalcStatus extends Component {

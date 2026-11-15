@@ -34,7 +34,7 @@ const store = new Store();
 const log = window.require("electron-log");
 const remote = window.require("electron").remote;
 var path = window.require("path");
-var sess = require("./sess.js");
+import sess from "./sess";
 
 const mytheme = createMuiTheme({
   palette: {

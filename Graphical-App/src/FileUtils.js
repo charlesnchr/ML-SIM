@@ -3,7 +3,7 @@ var path = window.require("path");
 var crypto = window.require("crypto");
 const log = window.require("electron-log");
 
-var sess = require("./sess.js");
+import sess from "./sess";
 
 function checkFilters(fn) {
   let returnval = true;
@@ -219,8 +219,4 @@ function checkIfArrayChangedAndUpdateHash(inputArray) {
   }
 }
 
-module.exports = {
-  readFilesRecursively,
-  readFilesSync,
-  checkIfArrayChangedAndUpdateHash,
-};
+export { readFilesRecursively, readFilesSync, checkIfArrayChangedAndUpdateHash };

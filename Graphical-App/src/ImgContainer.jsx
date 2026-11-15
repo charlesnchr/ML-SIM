@@ -7,7 +7,7 @@ const { ipcRenderer } = window.require("electron");
 const log = window.require("electron-log");
 const shell = window.require("electron").shell;
 
-var sess = require("./sess.js");
+import sess from "./sess";
 
 function calculateGeometry(filepaths, imgsize) {
   var nimgs = filepaths.length;

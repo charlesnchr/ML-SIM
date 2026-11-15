@@ -7,7 +7,7 @@ const { ipcRenderer } = window.require("electron");
 const log = window.require("electron-log");
 
 var path = window.require("path");
-var sess = require("./sess.js");
+import sess from "./sess";
 
 
 class Img extends Component {
