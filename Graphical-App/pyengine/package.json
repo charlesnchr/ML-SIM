@@ -1,7 +1,7 @@
 {
     "name": "ml-engine",
     "description": "Python backend engine used in ML-SIM",
-    "license": "UNLICENSED",
+    "license": "GPL-3.0-only",
     "version": "2.1.2",
     "author": "Charles N. Christensen",
     "scripts": {
