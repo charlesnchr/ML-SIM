@@ -7,12 +7,16 @@ import cv2
 import os
 import os.path
 
+import appdirs
+
 # Folder with the pre-trained models. The desktop app sets MLSIM_MODELS_DIR.
 MODELS_DIR = os.environ.get(
     'MLSIM_MODELS_DIR',
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'models'))
 
-fid = open('socketserver.log', 'a+')
+_logdir = appdirs.user_log_dir('Mambio', 'Mambio')
+os.makedirs(_logdir, exist_ok=True)
+fid = open(os.path.join(_logdir, 'socketserver.log'), 'a+')
 cachefolder = None
 useCloud = False
 
