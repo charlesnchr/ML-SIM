@@ -1,25 +1,23 @@
-const electron = require("electron");
-const app = electron.app;
-// const Tray = electron.Tray;
-// const Menu = electron.Menu;
-const BrowserWindow = electron.BrowserWindow;
-
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
-const isDev = require("electron-is-dev");
-
-const process = require("process");
-const url = require("url");
-
-let mainWindow;
-const { ipcMain, dialog } = require("electron");
 const crypto = require("crypto");
 
+const log = require("electron-log/main");
 const Store = require("electron-store");
+const remoteMain = require("@electron/remote/main");
+
+log.initialize();
+remoteMain.initialize();
+Store.initRenderer();
+
 const store = new Store();
+const isDev = !app.isPackaged;
 
-const log = require("electron-log");
+// The Vite dev server, when the app is started with `npm start`.
+const devServerUrl = process.env.MLSIM_DEV_SERVER;
+const indexHtml = path.join(__dirname, "..", "build", "index.html");
 
-const appData = app.getPath("appData");
+let mainWindow;
 
 let exportdir = store.get("exportdir");
 if (exportdir == null) {
@@ -28,7 +26,7 @@ if (exportdir == null) {
 }
 let cachedir = store.get("cachedir");
 if (cachedir == null) {
-  cachedir = path.join(appData, "Mambio-Library", "2");
+  cachedir = path.join(app.getPath("appData"), "Mambio-Library", "2");
   store.set("cachedir", cachedir);
 }
 
@@ -38,10 +36,8 @@ global.settings = {
   exportdir: exportdir,
 };
 
-
 const engineSetup = require("./EngineSetup.js");
 const engineCommunication = require("./EngineCommunication.js");
-
 
 app.on("ready", engineSetup.initEngine);
 app.on("will-quit", engineCommunication.exitEngine);
@@ -50,63 +46,52 @@ app.on("will-quit", engineCommunication.exitEngine);
  * window management
  *************************************************************/
 
-// file dialog handler
-// ipcMain.on('renderMenu', (event, profilename, settingsHandler) => {
-//   rendermenu(profilename,settingsHandler,event)
-// })
-
-
-
-ipcMain.on("showImage", (event, imgsrc) => {
-  let webPreferences = {
-    devTools: false,
-    nodeIntegration: true,
-    webSecurity: false, // is there another way to get images to load?
-  };
-  if (isDev) webPreferences.devTools = true;
-
-  let imageWindow = new BrowserWindow({
+function createAppWindow(route) {
+  const win = new BrowserWindow({
     width: 1000,
     height: 700,
     minWidth: 700,
     minHeight: 500,
     title: "ML-SIM",
-    webPreferences: webPreferences,
-    titleBarStyle: "hidden",
+    backgroundColor: "#444444",
+    // The custom header doubles as the title bar on macOS only.
+    titleBarStyle: process.platform === "darwin" ? "hidden" : "default",
+    webPreferences: {
+      devTools: isDev,
+      // The renderer reads folders and talks to the main process directly.
+      nodeIntegration: true,
+      contextIsolation: false,
+      sandbox: false,
+      // Thumbnails and results are loaded from disk with file:// URLs.
+      webSecurity: false,
+    },
   });
-  imageWindow.setBackgroundColor("#444444");
-  imageWindow.setMenuBarVisibility(false);
+  remoteMain.enable(win.webContents);
 
-  let imageViewURL = url.format({
-    pathname: path.join(__dirname, "../build/index.html"),
-    hash: "imageview",
-    protocol: "file",
-    slashes: false,
-  });
-
-  if(isDev && !process.env.RunReactCompile) {
-
+  if (devServerUrl) {
+    win.loadURL(devServerUrl + (route ? "#" + route : ""));
   } else {
-    log.info('will go to',imageViewURL);
+    win.loadFile(indexHtml, route ? { hash: route } : undefined);
   }
-  imageWindow.loadURL(
-    isDev && !process.env.RunReactCompile
-      ? "http://localhost:4001#/imageview"
-      : imageViewURL
-  );
+  return win;
+}
 
-
-  imageWindow.webContents.on("dom-ready", (event) => {
-    log.info('before noramlise',imgsrc);
-    log.info('after normalize',path.normalize(imgsrc));
-    imageWindow.webContents.send("filepathArgument", imgsrc.replace(/\\/g, "/"));
+ipcMain.on("showImage", (event, imgsrc) => {
+  if (!imgsrc) return;
+  const imageWindow = createAppWindow("/imageview");
+  imageWindow.setMenuBarVisibility(false);
+  imageWindow.webContents.on("dom-ready", () => {
+    imageWindow.webContents.send(
+      "filepathArgument",
+      imgsrc.replace(/\\/g, "/")
+    );
   });
 });
 
 ipcMain.on("open-file-dialog", (event) => {
   dialog
     .showOpenDialog({
-      properties: ["openFile", "openDirectory"],
+      properties: ["openDirectory"],
     })
     .then((data) => {
       log.info(data.filePaths);
@@ -129,107 +114,50 @@ ipcMain.on("open-singlefile-dialog", (event) => {
     });
 });
 
-let desktop_fingerprint = "-1";
-crypto.randomBytes(16, function(err, buffer) {
-  desktop_fingerprint = buffer.toString("hex");
-});
+const desktop_fingerprint = crypto.randomBytes(16).toString("hex");
 
 ipcMain.on("getFingerprint", (event) => {
   event.sender.send("getFingerprint", desktop_fingerprint);
 });
 
-
-//  message box
-ipcMain.on("messagebox", (event) => {
-  const options = {
+ipcMain.on("messagebox", () => {
+  dialog.showMessageBox({
     type: "info",
-    buttons: [],
-    defaultId: 0,
     title: "Info",
     message:
       "Search queries using more than one image as reference is not yet implemented. ",
     detail: "Put an issue on GitHub if this bothers you.",
-  };
-
-  dialog.showMessageBox(null, options, (response) => {
-    log.info(response);
   });
 });
 
-//  message box
-ipcMain.on("waitUntilCalcFeaturesFinishedbox", (event) => {
-  const options = {
+ipcMain.on("waitUntilCalcFeaturesFinishedbox", () => {
+  dialog.showMessageBox({
     type: "info",
-    buttons: [],
-    defaultId: 0,
     title: "Indexing in progress..",
     message: "You can search the library once the indexing has finished. ",
-    detail:
-      "In the meantime you can add or remove folders. If the indexing is taking a long time, try out the cloud compute.",
-  };
-
-  dialog.showMessageBox(null, options, (response) => {
-    log.info(response);
+    detail: "In the meantime you can add or remove folders.",
   });
 });
 
-//  message box
-ipcMain.on("emptyResultBox", (event) => {
-  const options = {
+ipcMain.on("emptyResultBox", () => {
+  dialog.showMessageBox({
     type: "info",
-    buttons: [],
-    defaultId: 0,
-    title: "Missing results for search query",
-    message: "No valid results were found for your search query.",
+    title: "No results",
+    message: "The engine returned no results for the selected images.",
     detail:
-      "If you did not expect this, file a bug on the ML-SIM Github Issues tracker.",
-  };
-
-  dialog.showMessageBox(null, options, (response) => {
-    log.info(response);
+      "ML-SIM expects TIFF stacks with at least 9 frames. The engine log has the details. If you did not expect this, file a bug on the ML-SIM GitHub issue tracker.",
   });
 });
 
 function createWindow() {
-  let webPreferences = {
-    devTools: false,
-    nodeIntegration: true,
-    webSecurity: false, // is there another way to get images to load?
-  };
-  if (isDev) webPreferences.devTools = true;
-
-  mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
-    minWidth: 700,
-    minHeight: 500,
-    title: "ML-SIM",
-    webPreferences: webPreferences,
-    titleBarStyle: "hidden",
-  });
-
-  mainWindow.loadURL(
-    isDev && !process.env.RunReactCompile
-      ? "http://localhost:4001"
-      : `file://${path.join(__dirname, "../build/index.html")}`
-  );
-
+  mainWindow = createAppWindow();
   mainWindow.on("closed", () => (mainWindow = null));
-  mainWindow.setBackgroundColor("#444444");
-
   global.mainWindow = mainWindow;
-  // BrowserWindow.addDevToolsExtension(path.join('C:/Users/charl/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0'));
-  // BrowserWindow.removeDevToolsExtension(name)
-  // name given by: BrowserWindow.getDevToolsExtensions
 }
 
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
-  if (!engineSetup.serverActive) {
-    store.set("skip_integrity_check", false); // there may be a problem
-  }
-
   if (process.platform !== "darwin") {
     app.quit();
   }
