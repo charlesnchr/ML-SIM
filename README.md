@@ -29,6 +29,7 @@ Structured illumination microscopy (SIM) doubles the resolution of a fluorescenc
 - **Nothing to tune.** In our comparison FairSIM, OpenSIM and CC-SIM each needed a hand-tuned configuration per dataset. ML-SIM has no settings.
 - **Fast.** Under 200 ms per reconstruction on a GTX 1080 Ti, more than ten times faster than the classical methods and quick enough for a live view during acquisition. About 10 s on an 8-core CPU.
 - **Robust to noise and irregular patterns.** It reconstructed interferometric SIM data with uneven phase steps that two of the three classical methods could not process. At high noise FairSIM and CC-SIM scored below the unprocessed wide-field image, while ML-SIM kept improving on it.
+- **Includes a SIM simulator.** [`MLSIM_datagen/`](#a-python-port-of-the-opensim-simulator) is a Python port of the OpenSIM image formation model, extended with randomised pattern errors, Poisson noise and spot illumination. It runs on its own to make test data with a known ground truth.
 - **Peer reviewed.** Published in [Biomedical Optics Express](https://doi.org/10.1364/BOE.414680) and cited more than 90 times.
 
 ## Try it
