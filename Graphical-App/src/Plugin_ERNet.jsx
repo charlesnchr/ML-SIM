@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 import "./App.css";
 
@@ -96,7 +97,7 @@ export default class Plugin_SIM extends Component {
       cmd: "Plugin_ERNet",
       filepaths: filepaths,
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         this.state.wekaColours +
         "\n" +

@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 
 import Grid from "@material-ui/core/Grid";
@@ -42,7 +43,7 @@ if (plugins == null) {
 }
 
 import log from "./log";
-const isDev = window.require("electron-is-dev");
+import { isDev } from "./platform";
 
 import sess from "./sess";
 
@@ -77,7 +78,7 @@ const theme = createMuiTheme({
 ipcRenderer.on("selected-file", (event, filepath) => {
   ipcRenderer.send("sendToPython", {
     cmd: "Reconstruct",
-    arg: remote.getGlobal("settings").exportdir + "\n" + filepath.join("\n"),
+    arg: getSettings().exportdir + "\n" + filepath.join("\n"),
   });
 });
 
@@ -454,8 +455,8 @@ class App extends Component {
           <SettingsMenu
             open={this.state.settingsOpen}
             onClose={this.settingsClose.bind(this)}
-            exportdir={remote.getGlobal("settings").exportdir}
-            cachedir={remote.getGlobal("settings").cachedir}
+            exportdir={getSettings().exportdir}
+            cachedir={getSettings().cachedir}
           />
           <AboutMenu
             open={this.state.aboutOpen}

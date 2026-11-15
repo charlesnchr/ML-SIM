@@ -1,3 +1,4 @@
+import { getSettings } from "./platform";
 import React, { Component } from "react";
 import "./App.css";
 
@@ -211,7 +212,7 @@ class SidePanel extends Component {
     ipcRenderer.send("sendToPython", {
       cmd: "exportToFolder",
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         selectedFilepaths,
     });
@@ -223,7 +224,7 @@ class SidePanel extends Component {
     ipcRenderer.send("sendToPython", {
       cmd: "exportToZip",
       arg:
-        remote.getGlobal("settings").exportdir +
+        getSettings().exportdir +
         "\n" +
         selectedFilepaths,
     });

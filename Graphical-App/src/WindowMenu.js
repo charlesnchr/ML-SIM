@@ -6,7 +6,7 @@ import log from "./log";
 const Menu = remote.Menu;
 const app = remote.app;
 const process = window.require("process");
-const isDev = window.require("electron-is-dev");
+import { isDev } from "./platform";
 
 import sess from "./sess";
 // var pluginDict = require("./pluginDict.js");
