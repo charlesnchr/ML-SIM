@@ -64,6 +64,7 @@
     "electron": "cross-env RunReactCompile=1 electron .",
     "electron-localhost": "wait-on http://localhost:4001 && electron .",
     "start": "concurrently \"yarn dev\" \"yarn electron-localhost\"",
-    "dev": "vite"
+    "dev": "vite",
+    "setup-engine": "node scripts/setup-engine.js"
   }
 }
