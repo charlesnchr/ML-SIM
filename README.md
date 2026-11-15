@@ -122,7 +122,7 @@ streamlit run MLSIM_datagen/streamlit_frequency_support.py
 | `models.py`, `run.py`, `datahandler.py`, `options.py` | Network architectures, training loop, data loading and command line options |
 | `1_PrepareTrainingData.ipynb`, `2_Train.ipynb`, `3_Evaluate.ipynb` | The same pipeline as step by step notebooks |
 | `Test_data/` | Raw stacks from two microscopes and two simulated test targets |
-| `Graphical-App/` | An Electron desktop app for batch reconstruction, with its own [README](Graphical-App) |
+| `Graphical-App/` | A desktop app for browsing folders of stacks and reconstructing them in batches, with its own [README](Graphical-App) |
 | `fig/make_figures.py` | Regenerates the figures on this page from `Test_data` |
 
 The pre-trained weights are also available as a [direct download](https://github.com/charlesnchr/ML-SIM/releases/download/v1.0/DIV2K_randomised_3x3_20200317.pth).
